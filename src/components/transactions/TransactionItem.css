@@ -1,0 +1,167 @@
+.transaction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 8px;
+  border-radius: var(--radius-sm);
+  border-bottom: 1px solid var(--color-surface-container-high);
+  transition: background var(--transition-fast);
+  position: relative;
+  min-width: 0;
+}
+
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-item:hover {
+  background: var(--color-surface-container-low);
+}
+
+/* Left side: icon + info */
+.transaction-item__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-item__icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.transaction-item__info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.transaction-item__title {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--color-on-surface);
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transaction-item__sub {
+  font-size: var(--font-size-xs);
+  color: var(--color-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* Right side: amount + actions */
+.transaction-item__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.transaction-item__amount {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.transaction-item__amount.income  { color: #10b981; }
+.transaction-item__amount.expense { color: #ba1a1a; }
+
+/* Action buttons — visible on hover */
+.transaction-item__actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.transaction-item:hover .transaction-item__actions {
+  opacity: 1;
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.action-btn:hover {
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+}
+
+.action-btn--danger:hover {
+  background: var(--color-expense-bg);
+  color: var(--color-expense);
+}
+
+/* Inline delete confirm */
+.delete-confirm {
+  position: absolute;
+  inset: 0;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 8px;
+  z-index: 10;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.delete-confirm__btns {
+  display: flex;
+  gap: 6px;
+}
+
+.confirm-btn {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+}
+
+.confirm-btn--cancel {
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+}
+
+.confirm-btn--delete {
+  background: var(--color-expense);
+  color: #ffffff;
+}
+
+/* Touch: always show actions */
+@media (hover: none) {
+  .transaction-item__actions { opacity: 1; }
+}

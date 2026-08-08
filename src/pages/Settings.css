@@ -1,0 +1,207 @@
+.settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.settings-alert {
+  background: var(--color-income-bg);
+  color: #10B981;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.settings-card {
+  padding: 24px;
+  background: var(--color-surface-container-lowest);
+  border-radius: 16px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid var(--color-surface-container-low);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.settings-card__header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-surface-container-high);
+}
+
+.settings-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--color-surface-container-low);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.settings-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  line-height: 22px;
+}
+
+.settings-desc {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+}
+
+.settings-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.settings-card__body--grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 640px) {
+  .settings-card__body--grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.settings-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-field label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+}
+
+.settings-input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-container-low);
+  font-family: var(--font-family);
+  font-size: 14px;
+  color: var(--color-on-surface);
+  outline: none;
+}
+
+.settings-input:focus {
+  border-color: var(--color-primary);
+  background: #ffffff;
+}
+
+.settings-action-box {
+  background: var(--color-surface-container-low);
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 1px solid var(--color-surface-container-high);
+}
+
+.settings-action-box h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.settings-action-box p {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  flex: 1;
+  margin-bottom: 8px;
+}
+
+.import-file-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.import-file-btn:hover {
+  opacity: 0.9;
+}
+
+.settings-card__footer {
+  padding-top: 16px;
+  border-top: 1px solid var(--color-surface-container-high);
+}
+
+.reset-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid rgba(186, 26, 26, 0.2);
+  color: #ba1a1a;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.reset-btn:hover {
+  background: rgba(186, 26, 26, 0.08);
+}
+
+.reset-confirm-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.reset-confirm-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.settings-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-surface-container-high);
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+}
+
+.settings-info-row:last-child {
+  border-bottom: none;
+}

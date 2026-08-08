@@ -1,0 +1,69 @@
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .page-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.page-header__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.page-header__title {
+  font-size: var(--font-size-2xl);
+  font-weight: 800;
+  color: var(--color-on-surface);
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+}
+
+.page-header__subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface-variant);
+  line-height: 1.4;
+}
+
+.page-header__add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--color-on-background);
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(27,27,36,0.15);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  white-space: nowrap;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .page-header__add-btn {
+    width: auto;
+  }
+}
+
+.page-header__add-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.page-header__add-btn:active {
+  transform: translateY(0);
+}

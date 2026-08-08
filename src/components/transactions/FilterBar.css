@@ -1,0 +1,115 @@
+.filter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 8px;
+}
+
+@media (min-width: 768px) {
+  .filter-card {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+/* Search field */
+.filter-card__search {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding: 4px 4px 4px 0;
+  border-bottom: 1px solid var(--color-surface-container-high);
+}
+
+@media (min-width: 768px) {
+  .filter-card__search {
+    border-bottom: none;
+  }
+}
+
+.filter-card__search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--color-on-surface-variant);
+  font-size: 18px;
+  pointer-events: none;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.filter-card__input {
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  color: var(--color-on-surface);
+}
+
+.filter-card__input::placeholder {
+  color: var(--color-on-surface-variant);
+  opacity: 0.5;
+}
+
+/* Divider between search and selects (desktop only) */
+.filter-card__divider {
+  display: none;
+  width: 1px;
+  height: 24px;
+  background: var(--color-surface-container-highest);
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+@media (min-width: 768px) {
+  .filter-card__divider {
+    display: block;
+  }
+}
+
+/* Selects row */
+.filter-card__selects {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 8px 12px;
+}
+
+@media (min-width: 768px) {
+  .filter-card__selects {
+    padding: 0 8px;
+    flex-wrap: nowrap;
+  }
+}
+
+.filter-card__select {
+  background: transparent;
+  border: none;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-on-surface);
+  padding: 6px 22px 6px 8px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23464555' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 14px;
+}
+
+.filter-card__select option {
+  background: #ffffff;
+  color: var(--color-on-surface);
+}
