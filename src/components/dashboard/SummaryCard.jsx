@@ -4,8 +4,8 @@ import './SummaryCard.css';
 
 const CARD_CONFIGS = {
   balance: {
-    label: 'Saldo Bulan Ini',
-    icon: 'account_balance_wallet',
+    label: 'Selisih Periode Ini',
+    icon: 'swap_horiz',
     type: 'balance',
   },
   income: {

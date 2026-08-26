@@ -2,6 +2,7 @@ import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { useTransactions } from '../../context/TransactionContext';
+import { useTheme } from '../../context/ThemeContext';
 import { getCategoryById } from '../../utils/categories';
 import { formatCurrency } from '../../utils/formatCurrency';
 import './DonutChart.css';
@@ -15,6 +16,7 @@ const DONUT_COLORS = [
 
 const DonutChart = () => {
   const { filteredTransactions } = useTransactions();
+  const { isDark } = useTheme();
 
   const expenses = filteredTransactions.filter((t) => t.type === 'expense');
 
@@ -44,7 +46,7 @@ const DonutChart = () => {
       {
         data,
         backgroundColor: colors,
-        borderColor: '#FFFFFF',
+        borderColor: isDark ? '#171622' : '#FFFFFF',
         borderWidth: 3,
         hoverOffset: 6,
       },
@@ -58,8 +60,8 @@ const DonutChart = () => {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: '#1E293B',
-        borderColor: 'rgba(255,255,255,0.1)',
+        backgroundColor: isDark ? '#171622' : '#1E293B',
+        borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)',
         borderWidth: 1,
         titleColor: '#fff',
         bodyColor: '#94A3B8',

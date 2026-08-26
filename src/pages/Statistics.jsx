@@ -9,8 +9,9 @@ import {
   Legend,
 } from 'chart.js';
 import { useTransactions } from '../context/TransactionContext';
+import { useTheme } from '../context/ThemeContext';
 import Header from '../components/layout/Header';
-import { getCategoryById, CATEGORIES } from '../utils/categories';
+import { getCategoryById } from '../utils/categories';
 import { formatCurrency, formatCompact } from '../utils/formatCurrency';
 import { formatMonthShort } from '../utils/formatDate';
 import './Statistics.css';
@@ -19,6 +20,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
 const Statistics = () => {
   const { transactions } = useTransactions();
+  const { isDark } = useTheme();
 
   // --- Last 6 months bar chart ---
   const now = new Date();
@@ -46,7 +48,7 @@ const Statistics = () => {
       {
         label: 'Pemasukan',
         data: incomeData,
-        backgroundColor: 'rgba(16,185,129,0.7)',
+        backgroundColor: 'rgba(16,185,129,0.75)',
         borderColor: '#10b981',
         borderWidth: 1.5,
         borderRadius: 6,
@@ -54,7 +56,7 @@ const Statistics = () => {
       {
         label: 'Pengeluaran',
         data: expenseData,
-        backgroundColor: 'rgba(239,68,68,0.7)',
+        backgroundColor: 'rgba(239,68,68,0.75)',
         borderColor: '#ef4444',
         borderWidth: 1.5,
         borderRadius: 6,
@@ -71,7 +73,7 @@ const Statistics = () => {
         position: 'top',
         align: 'end',
         labels: {
-          color: '#464555',
+          color: isDark ? '#f3effc' : '#464555',
           font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' },
           usePointStyle: true,
           pointStyle: 'circle',
@@ -81,8 +83,8 @@ const Statistics = () => {
         },
       },
       tooltip: {
-        backgroundColor: '#1E293B',
-        borderColor: 'rgba(255,255,255,0.08)',
+        backgroundColor: isDark ? '#171622' : '#1E293B',
+        borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
         borderWidth: 1,
         titleColor: '#fff',
         bodyColor: '#94A3B8',
@@ -96,12 +98,12 @@ const Statistics = () => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: '#777587', font: { family: 'Plus Jakarta Sans', size: 11 } },
+        ticks: { color: isDark ? '#88849e' : '#777587', font: { family: 'Plus Jakarta Sans', size: 11 } },
         border: { display: false },
       },
       y: {
-        grid: { color: 'rgba(0,0,0,0.04)' },
-        ticks: { color: '#777587', font: { family: 'Plus Jakarta Sans', size: 10 }, callback: (v) => formatCompact(v) },
+        grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' },
+        ticks: { color: isDark ? '#88849e' : '#777587', font: { family: 'Plus Jakarta Sans', size: 10 }, callback: (v) => formatCompact(v) },
         border: { display: false },
       },
     },

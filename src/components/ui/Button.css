@@ -19,17 +19,20 @@
 .btn--lg  { padding: 12px 26px; font-size: var(--font-size-lg); }
 .btn--full { width: 100%; }
 
-/* Primary — dark navy */
+/* Primary — Brand Indigo / Purple */
 .btn--primary {
-  background: var(--color-on-background);
-  color: #fff;
-  box-shadow: 0 2px 8px rgba(27,27,36,0.15);
+  background: var(--color-primary-container);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
 }
 .btn--primary:hover {
-  opacity: 0.9;
+  opacity: 0.92;
   transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
 }
-.btn--primary:active { transform: translateY(0); }
+.btn--primary:active {
+  transform: translateY(0);
+}
 
 /* Secondary */
 .btn--secondary {
@@ -57,22 +60,25 @@
 .btn--danger {
   background: var(--color-expense-bg);
   color: var(--color-expense);
-  border: 1px solid rgba(186,26,26,0.2);
+  border: 1px solid rgba(186, 26, 26, 0.2);
 }
 .btn--danger:hover {
-  background: rgba(186,26,26,0.15);
+  background: rgba(186, 26, 26, 0.15);
 }
 
 /* Income */
 .btn--income {
   background: var(--color-income);
-  color: #fff;
+  color: #ffffff;
 }
-.btn--income:hover { opacity: 0.9; }
+.btn--income:hover {
+  opacity: 0.9;
+}
 
 /* Disabled */
 .btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
   transform: none !important;
+  pointer-events: none;
 }

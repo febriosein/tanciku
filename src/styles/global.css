@@ -2,7 +2,7 @@
 
 /* ===== DESIGN SYSTEM VARIABLES ===== */
 :root {
-  /* === Colors from DESIGN.md === */
+  /* === Light Theme Colors === */
   --color-surface: #fcf8ff;
   --color-surface-container-lowest: #ffffff;
   --color-surface-container-low: #f5f2ff;
@@ -25,8 +25,8 @@
 
   --color-income: #10b981;
   --color-income-bg: rgba(16, 185, 129, 0.1);
-  --color-expense: #ba1a1a;
-  --color-expense-bg: rgba(186, 26, 26, 0.1);
+  --color-expense: #ef4444;
+  --color-expense-bg: rgba(239, 68, 68, 0.1);
 
   --color-background: #fcf8ff;
   --color-on-background: #1b1b24;
@@ -98,6 +98,61 @@
   --transition-spring: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* ===== DARK THEME VARIABLES ===== */
+[data-theme='dark'] {
+  --color-surface: #0f0e17;
+  --color-surface-container-lowest: #171622;
+  --color-surface-container-low: #1e1d2c;
+  --color-surface-container: #242235;
+  --color-surface-container-high: #2c2a3f;
+  --color-surface-container-highest: #37344e;
+  --color-on-surface: #f3effc;
+  --color-on-surface-variant: #a5a2ba;
+  --color-outline: #88849e;
+  --color-outline-variant: #423f59;
+
+  --color-primary: #6366f1;
+  --color-primary-container: #4f46e5;
+  --color-on-primary-container: #dad7ff;
+  --color-on-primary: #ffffff;
+
+  --color-secondary: #8b88bc;
+  --color-secondary-container: #3d3b5e;
+  --color-on-secondary-container: #e3dfff;
+
+  --color-income: #22c55e;
+  --color-income-bg: rgba(34, 197, 94, 0.15);
+  --color-expense: #f87171;
+  --color-expense-bg: rgba(248, 113, 113, 0.15);
+
+  --color-background: #0f0e17;
+  --color-on-background: #f3effc;
+
+  /* Legacy aliases */
+  --color-bg-primary: #0f0e17;
+  --color-bg-secondary: #171622;
+  --color-bg-card: #171622;
+  --color-bg-card-hover: #222030;
+  --color-bg-input: #1e1d2c;
+  --color-bg-modal: #171622;
+  --color-bg-sidebar: #0a0910;
+  --color-bg-bottomnav: #171622;
+
+  --color-text-primary: #f3effc;
+  --color-text-secondary: #a5a2ba;
+  --color-text-muted: #88849e;
+
+  --color-border: #2c2a3f;
+  --color-border-strong: #423f59;
+  --color-border-focus: rgba(99, 102, 241, 0.45);
+
+  --glass-bg: rgba(23, 22, 34, 0.9);
+  --glass-border: rgba(44, 42, 63, 0.8);
+
+  --card-shadow: 0px 4px 20px rgba(0, 0, 0, 0.4);
+  --card-shadow-hover: 0px 8px 30px rgba(0, 0, 0, 0.6);
+}
+
 /* ===== RESET ===== */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -122,6 +177,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   min-height: 100vh;
+  transition: background-color var(--transition-base), color var(--transition-base);
 }
 
 /* ===== MATERIAL SYMBOLS ===== */
@@ -146,8 +202,8 @@ body {
   background: var(--color-surface-container-lowest);
   border-radius: var(--radius-lg);
   box-shadow: var(--card-shadow);
-  border: 1px solid var(--color-surface-container-low);
-  transition: box-shadow var(--transition-base);
+  border: 1px solid var(--color-surface-container-high);
+  transition: box-shadow var(--transition-base), background-color var(--transition-base), border-color var(--transition-base);
   width: 100%;
   box-sizing: border-box;
 }
@@ -176,6 +232,7 @@ body {
   width: calc(100% - var(--sidebar-width));
   box-sizing: border-box;
   overflow-x: hidden;
+  background: var(--color-background);
 }
 
 .app-content {
@@ -191,6 +248,36 @@ body {
 .text-income { color: var(--color-income); }
 .text-expense { color: var(--color-expense); }
 .text-muted { color: var(--color-on-surface-variant); }
+
+/* Badges & Tags */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-surface-container-highest);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {

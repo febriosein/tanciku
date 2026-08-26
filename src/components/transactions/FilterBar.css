@@ -6,13 +6,13 @@
   border: 1px solid var(--color-surface-container-high);
   border-radius: var(--radius-lg);
   box-shadow: var(--card-shadow);
-  overflow: hidden;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  transition: all var(--transition-base);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .filter-card {
     flex-direction: row;
     align-items: center;
@@ -25,11 +25,11 @@
   flex: 1;
   display: flex;
   align-items: center;
-  padding: 4px 4px 4px 0;
+  padding: 4px 8px 4px 0;
   border-bottom: 1px solid var(--color-surface-container-high);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .filter-card__search {
     border-bottom: none;
   }
@@ -47,7 +47,7 @@
 
 .filter-card__input {
   width: 100%;
-  padding: 10px 12px 10px 38px;
+  padding: 10px 32px 10px 38px;
   background: transparent;
   border: none;
   outline: none;
@@ -58,10 +58,27 @@
 
 .filter-card__input::placeholder {
   color: var(--color-on-surface-variant);
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
-/* Divider between search and selects (desktop only) */
+.filter-card__clear-search {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: var(--color-on-surface-variant);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.filter-card__clear-search .material-symbols-outlined {
+  font-size: 16px;
+}
+
+/* Divider between search and selects */
 .filter-card__divider {
   display: none;
   width: 1px;
@@ -71,7 +88,7 @@
   margin: 0 4px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .filter-card__divider {
     display: block;
   }
@@ -81,35 +98,72 @@
 .filter-card__selects {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  align-items: center;
+  gap: 6px;
   padding: 8px 12px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .filter-card__selects {
-    padding: 0 8px;
+    padding: 0 10px;
     flex-wrap: nowrap;
   }
 }
 
 .filter-card__select {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
   font-family: var(--font-family);
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--color-on-surface);
-  padding: 6px 22px 6px 8px;
+  padding: 6px 24px 6px 8px;
   outline: none;
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23464555' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2388849e' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 4px center;
+  background-position: right 6px center;
   background-size: 14px;
+  transition: all var(--transition-fast);
+}
+
+.filter-card__select:hover {
+  background-color: var(--color-surface-container-low);
+  border-color: var(--color-surface-container-high);
+}
+
+.filter-card__select:focus {
+  border-color: var(--color-primary);
 }
 
 .filter-card__select option {
-  background: #ffffff;
+  background: var(--color-surface-container-lowest);
   color: var(--color-on-surface);
+}
+
+/* Custom Dates */
+.filter-card__custom-dates {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filter-card__date-input {
+  background: var(--color-surface-container-low);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  outline: none;
+}
+
+.filter-card__date-sep {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-on-surface-variant);
 }

@@ -55,8 +55,27 @@ export const todayISO = () => {
   return `${year}-${month}-${day}`;
 };
 
+// Get N days ago ISO string
+export const daysAgoISO = (days) => {
+  const d = new Date();
+  d.setDate(d.getDate() - days);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 // Get year and month from ISO date string
 export const getYearMonth = (dateStr) => {
   const d = parseISODate(dateStr);
   return { year: d.getFullYear(), month: d.getMonth() };
+};
+
+// Dynamic friendly greeting based on time of day
+export const getGreeting = () => {
+  const hour = new Date().getHours();
+  if (hour >= 4 && hour < 11) return 'Selamat Pagi';
+  if (hour >= 11 && hour < 15) return 'Selamat Siang';
+  if (hour >= 15 && hour < 18) return 'Selamat Sore';
+  return 'Selamat Malam';
 };

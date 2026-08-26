@@ -43,6 +43,14 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  gap: 2px;
+}
+
+.transaction-item__title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .transaction-item__title {
@@ -55,13 +63,25 @@
   text-overflow: ellipsis;
 }
 
+.transaction-item__wallet-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-container);
+  color: var(--color-on-surface-variant);
+  border: 1px solid var(--color-surface-container-high);
+}
+
 .transaction-item__sub {
   font-size: var(--font-size-xs);
   color: var(--color-on-surface-variant);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 1px;
 }
 
 /* Right side: amount + actions */
@@ -79,9 +99,9 @@
 }
 
 .transaction-item__amount.income  { color: #10b981; }
-.transaction-item__amount.expense { color: #ba1a1a; }
+.transaction-item__amount.expense { color: var(--color-expense); }
 
-/* Action buttons — visible on hover */
+/* Action buttons */
 .transaction-item__actions {
   display: flex;
   gap: 4px;

@@ -1,21 +1,37 @@
 import React, { useState } from 'react';
 import { useTransactions } from '../../context/TransactionContext';
+import { useToast } from '../../context/ToastContext';
 import { formatDate } from '../../utils/formatDate';
 import { getCategoryById } from '../../utils/categories';
+import { getWalletById } from '../../utils/wallets';
 import TransactionModal from './TransactionModal';
 import './TransactionItem.css';
 
 const TransactionItem = ({ transaction }) => {
-  const { dispatch } = useTransactions();
+  const { wallets, dispatch } = useTransactions();
+  const toast = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const category = getCategoryById(transaction.category);
+  const wallet = getWalletById(transaction.wallet || 'cash', wallets);
   const isIncome = transaction.type === 'income';
 
   const handleDelete = () => {
+    const deletedCopy = { ...transaction };
     dispatch({ type: 'DELETE_TRANSACTION', payload: transaction.id });
     setShowConfirm(false);
+
+    toast.show({
+      message: 'Transaksi berhasil dihapus',
+      type: 'info',
+      duration: 5000,
+      actionText: 'Urungkan',
+      onAction: () => {
+        dispatch({ type: 'RESTORE_TRANSACTION', payload: deletedCopy });
+        toast.success('Transaksi berhasil dipulihkan!');
+      },
+    });
   };
 
   const dateStr = formatDate(transaction.date);
@@ -34,7 +50,13 @@ const TransactionItem = ({ transaction }) => {
             <span>{category.icon}</span>
           </div>
           <div className="transaction-item__info">
-            <div className="transaction-item__title">{category.label}</div>
+            <div className="transaction-item__title-row">
+              <span className="transaction-item__title">{category.label}</span>
+              <span className="transaction-item__wallet-badge" style={{ '--w-color': wallet.color }}>
+                <span className="material-symbols-outlined" style={{ fontSize: '12px' }}>{wallet.icon}</span>
+                {wallet.label}
+              </span>
+            </div>
             <div className="transaction-item__sub">{subtitle}</div>
           </div>
         </div>
@@ -64,7 +86,7 @@ const TransactionItem = ({ transaction }) => {
         </div>
 
         {showConfirm && (
-          <div className="delete-confirm">
+          <div className="delete-confirm animate-fade-in">
             <span>Hapus transaksi ini?</span>
             <div className="delete-confirm__btns">
               <button className="confirm-btn confirm-btn--cancel" onClick={() => setShowConfirm(false)}>

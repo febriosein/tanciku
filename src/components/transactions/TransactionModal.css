@@ -125,12 +125,12 @@
   box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
 }
 
-/* ── Amount Box ── */
+/* ── Amount Box & Mini Calc ── */
 .ms-amount-box {
   background: var(--color-surface-container-low);
   border: 2px solid var(--color-surface-container-high);
   border-radius: var(--radius-xl);
-  padding: 20px 16px 16px;
+  padding: 18px 16px 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -141,12 +141,31 @@
 .ms-amount-box--income  { border-color: rgba(16, 185, 129, 0.25); }
 .ms-amount-box--error   { border-color: #ba1a1a !important; background: rgba(186, 26, 26, 0.04); }
 
+.ms-amount-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .ms-amount-label {
   font-size: 10px;
   font-weight: 800;
   color: var(--color-on-surface-variant);
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.calc-preview-btn,
+.calc-preview-pill {
+  background: var(--color-primary);
+  color: #ffffff;
+  border: none;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  animation: pulse 1.5s infinite;
 }
 
 .ms-amount-row {
@@ -156,7 +175,7 @@
 }
 
 .ms-amount-rp {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--color-on-surface-variant);
   flex-shrink: 0;
@@ -169,7 +188,7 @@
   border: none;
   outline: none;
   font-family: var(--font-family);
-  font-size: 36px;
+  font-size: 30px;
   font-weight: 800;
   color: var(--color-on-surface);
   min-width: 0;
@@ -182,8 +201,8 @@
 }
 
 .ms-amount-clear {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-sm);
   background: var(--color-surface-container-high);
   border: none;
@@ -203,10 +222,48 @@
   padding: 4px 0 0;
 }
 
+/* Calculator Operator Row */
+.calc-ops-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calc-op-btn {
+  flex: 1;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  color: var(--color-on-surface);
+  font-family: var(--font-family);
+  font-size: 16px;
+  font-weight: 700;
+  padding: 6px 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calc-op-btn:hover,
+.calc-op-btn:active {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.calc-op-btn--equal {
+  flex: 1.5;
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
 /* Quick chip row */
 .ms-quick-chips {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   overflow-x: auto;
   padding-bottom: 2px;
   -webkit-overflow-scrolling: touch;
@@ -219,9 +276,9 @@
   border: 1px solid var(--color-surface-container-highest);
   color: var(--color-primary);
   font-family: var(--font-family);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  padding: 7px 14px;
+  padding: 6px 12px;
   border-radius: var(--radius-full);
   cursor: pointer;
   white-space: nowrap;
@@ -258,6 +315,45 @@
   font-size: 10px;
   letter-spacing: 0;
   opacity: 0.7;
+}
+
+/* ── Wallet Selector (Mobile) ── */
+.ms-wallet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.ms-wallet-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-surface-container-high);
+  background: var(--color-surface-container-low);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ms-wallet-btn--active {
+  border-color: var(--color-primary);
+  background: var(--color-surface-container-lowest);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.ms-wallet-icon {
+  font-size: 18px;
+}
+
+.ms-wallet-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── Category Grid ── */
@@ -328,9 +424,9 @@
 }
 
 .ms-date-chip--active {
-  background: var(--color-on-background);
+  background: var(--color-primary);
   color: #ffffff;
-  border-color: var(--color-on-background);
+  border-color: var(--color-primary);
 }
 
 .ms-date-chip:active { transform: scale(0.95); }
@@ -446,13 +542,13 @@
 }
 
 /* ============================================================
-   DESKTOP MODAL (existing quick-form styles — unchanged)
+   DESKTOP MODAL (quick-form styles)
    ============================================================ */
 
 .quick-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 18px;
   width: 100%;
 }
 
@@ -510,6 +606,12 @@
   background: rgba(186, 26, 26, 0.04);
 }
 
+.quick-amount-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .quick-amount-label {
   font-size: 10px;
   font-weight: 700;
@@ -537,7 +639,7 @@
   background: transparent;
   outline: none;
   font-family: var(--font-family);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 800;
   color: var(--color-on-surface);
   line-height: 1;
@@ -614,6 +716,49 @@
   display: block;
 }
 
+/* Wallet Grid (Desktop) */
+.quick-wallet-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.quick-wallet-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-surface-container-high);
+  background: var(--color-surface-container-low);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.quick-wallet-btn:hover {
+  border-color: var(--color-primary);
+  background: var(--color-surface-container-lowest);
+}
+
+.quick-wallet-btn.active {
+  border-color: var(--color-primary);
+  background: var(--color-surface-container-lowest);
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.quick-wallet-icon {
+  font-size: 16px;
+}
+
+.quick-wallet-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .quick-category-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -680,9 +825,9 @@
   color: var(--color-on-surface);
 }
 .date-chip.active {
-  background: var(--color-on-background);
+  background: var(--color-primary);
   color: #ffffff;
-  border-color: var(--color-on-background);
+  border-color: var(--color-primary);
 }
 
 .date-input-custom {
@@ -734,7 +879,7 @@
   transition: all 0.15s ease;
 }
 .note-chip:hover {
-  background: var(--color-on-background);
+  background: var(--color-primary);
   color: #ffffff;
 }
 

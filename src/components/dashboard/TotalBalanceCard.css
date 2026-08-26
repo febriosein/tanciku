@@ -1,0 +1,182 @@
+.total-balance-card {
+  position: relative;
+  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+  border-radius: var(--radius-xl);
+  padding: 24px 28px;
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(30, 27, 75, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all var(--transition-base);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+[data-theme='dark'] .total-balance-card {
+  background: linear-gradient(135deg, #181628 0%, #292645 100%);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+}
+
+.total-balance-card__bg-glow {
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.total-balance-card__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.total-balance-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.total-balance-card__label-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.total-balance-card__icon-box {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #dad7ff;
+}
+
+.total-balance-card__icon-box .material-symbols-outlined {
+  font-size: 18px;
+}
+
+.total-balance-card__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #dad7ff;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.total-balance-card__eye-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.total-balance-card__eye-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+.total-balance-card__eye-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.total-balance-card__amount-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.total-balance-card__amount {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+}
+
+.total-balance-card__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.total-balance-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  flex-wrap: wrap;
+}
+
+.total-balance-card__subinfo {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.total-balance-card__subinfo strong {
+  color: #ffffff;
+}
+
+.total-balance-card__add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.total-balance-card__add-btn:hover {
+  background: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+@media (max-width: 640px) {
+  .total-balance-card {
+    padding: 18px 20px;
+  }
+
+  .total-balance-card__amount {
+    font-size: 26px;
+  }
+
+  .total-balance-card__label {
+    font-size: 11px;
+  }
+}

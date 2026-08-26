@@ -11,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { useTransactions } from '../../context/TransactionContext';
+import { useTheme } from '../../context/ThemeContext';
 import { formatCompact } from '../../utils/formatCurrency';
 import { formatMonthShort } from '../../utils/formatDate';
 
@@ -18,6 +19,7 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, 
 
 const LineChart = () => {
   const { transactions } = useTransactions();
+  const { isDark } = useTheme();
 
   const now = new Date();
   const months = Array.from({ length: 6 }, (_, i) => {
@@ -45,11 +47,11 @@ const LineChart = () => {
       {
         label: 'Pemasukan',
         data: incomeData,
-        borderColor: '#4F46E5',
-        backgroundColor: 'rgba(79,70,229,0.08)',
-        borderWidth: 2,
-        pointBackgroundColor: '#fff',
-        pointBorderColor: '#4F46E5',
+        borderColor: isDark ? '#818cf8' : '#4F46E5',
+        backgroundColor: isDark ? 'rgba(129, 140, 248, 0.15)' : 'rgba(79,70,229,0.08)',
+        borderWidth: 2.5,
+        pointBackgroundColor: isDark ? '#171622' : '#ffffff',
+        pointBorderColor: isDark ? '#818cf8' : '#4F46E5',
         pointBorderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
@@ -59,11 +61,11 @@ const LineChart = () => {
       {
         label: 'Pengeluaran',
         data: expenseData,
-        borderColor: '#F97316',
-        backgroundColor: 'rgba(249,115,22,0.08)',
-        borderWidth: 2,
-        pointBackgroundColor: '#fff',
-        pointBorderColor: '#F97316',
+        borderColor: isDark ? '#fb923c' : '#F97316',
+        backgroundColor: isDark ? 'rgba(251, 146, 60, 0.15)' : 'rgba(249,115,22,0.08)',
+        borderWidth: 2.5,
+        pointBackgroundColor: isDark ? '#171622' : '#ffffff',
+        pointBorderColor: isDark ? '#fb923c' : '#F97316',
         pointBorderWidth: 2,
         pointRadius: 4,
         pointHoverRadius: 6,
@@ -79,11 +81,11 @@ const LineChart = () => {
     interaction: { mode: 'index', intersect: false },
     plugins: {
       legend: {
-        display: false, // Hidden because custom header legend pills are rendered in Dashboard
+        display: false,
       },
       tooltip: {
-        backgroundColor: '#1E293B',
-        borderColor: 'rgba(255,255,255,0.08)',
+        backgroundColor: isDark ? '#171622' : '#1E293B',
+        borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.08)',
         borderWidth: 1,
         titleColor: '#fff',
         bodyColor: '#94A3B8',
@@ -97,13 +99,13 @@ const LineChart = () => {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: '#94A3B8', font: { family: 'Plus Jakarta Sans', size: 11 } },
+        ticks: { color: isDark ? '#88849e' : '#94A3B8', font: { family: 'Plus Jakarta Sans', size: 11 } },
         border: { display: false },
       },
       y: {
-        grid: { color: 'rgba(0,0,0,0.04)' },
+        grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' },
         ticks: {
-          color: '#94A3B8',
+          color: isDark ? '#88849e' : '#94A3B8',
           font: { family: 'Plus Jakarta Sans', size: 10 },
           callback: (v) => formatCompact(v),
         },

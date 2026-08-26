@@ -1,9 +1,13 @@
-export const exportCSV = (transactions) => {
-  const headers = ['Tanggal', 'Jenis', 'Kategori', 'Jumlah', 'Catatan'];
+import { getWalletById } from './wallets';
+import { getCategoryById } from './categories';
+
+export const exportCSV = (transactions, wallets = null) => {
+  const headers = ['Tanggal', 'Jenis', 'Kategori', 'Dompet/Metode', 'Jumlah', 'Catatan'];
   const rows = transactions.map((t) => [
     t.date,
     t.type === 'income' ? 'Pemasukan' : 'Pengeluaran',
-    t.category,
+    getCategoryById(t.category).label,
+    getWalletById(t.wallet || 'cash', wallets).label,
     t.amount,
     t.note || '',
   ]);
