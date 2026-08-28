@@ -132,7 +132,7 @@
 .transactions-main-card__actions {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
@@ -144,7 +144,7 @@
   background: var(--color-surface-container-lowest);
   border: 1px solid var(--color-surface-container-high);
   border-radius: var(--radius-full);
-  padding: 4px 10px 4px 12px;
+  padding: 5px 10px 5px 12px;
   transition: border-color var(--transition-fast);
 }
 
@@ -179,8 +179,47 @@
   color: var(--color-on-surface);
 }
 
-.trans-export-btn {
-  border-radius: var(--radius-full) !important;
+/* Action Pill Buttons (PDF & CSV) */
+.trans-action-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-surface-container-high);
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.trans-action-pill-btn:hover {
+  transform: translateY(-1px);
+}
+
+.trans-action-pill-btn--pdf {
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--color-expense);
+}
+
+.trans-action-pill-btn--pdf:hover {
+  background: var(--color-expense-bg);
+  border-color: var(--color-expense);
+}
+
+.trans-action-pill-btn--csv {
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+.trans-action-pill-btn--csv:hover {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: #10b981;
 }
 
 .transactions-main-card__body {
@@ -203,13 +242,13 @@
   }
 
   .trans-sort-pill {
+    grid-column: 1 / -1;
     width: 100%;
     justify-content: center;
   }
 
-  .trans-export-btn {
+  .trans-action-pill-btn {
     width: 100%;
-    justify-content: center;
   }
 
   .transactions-main-card__body {

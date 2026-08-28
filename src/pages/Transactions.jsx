@@ -1,17 +1,19 @@
 import React from 'react';
-import { Download } from 'lucide-react';
+import { Download, FileText } from 'lucide-react';
 import Header from '../components/layout/Header';
 import FilterBar from '../components/transactions/FilterBar';
 import TransactionList from '../components/transactions/TransactionList';
-import Button from '../components/ui/Button';
 import { useTransactions } from '../context/TransactionContext';
+import { useToast } from '../context/ToastContext';
 import { exportCSV } from '../utils/exportCSV';
+import { exportPDF } from '../utils/exportPDF';
 import { formatCurrency } from '../utils/formatCurrency';
 import { formatMonthLabel, formatDateShort } from '../utils/formatDate';
 import './Transactions.css';
 
 const Transactions = () => {
-  const { filteredTransactions, summary, filter, wallets, dispatch } = useTransactions();
+  const { filteredTransactions, summary, filter, wallets, profile, dispatch } = useTransactions();
+  const toast = useToast();
 
   // Dynamic filter description
   let filterDesc = '';
@@ -29,8 +31,18 @@ const Transactions = () => {
     filterDesc = formatMonthLabel(filter.year, filter.month);
   }
 
-  const handleExport = () => {
+  const handleExportCSV = () => {
     exportCSV(filteredTransactions, wallets);
+    toast.success('Data CSV berhasil diunduh!');
+  };
+
+  const handleExportPDF = () => {
+    try {
+      exportPDF(filteredTransactions, summary, filterDesc, profile, wallets);
+      toast.success('Laporan PDF berhasil diunduh!');
+    } catch {
+      toast.error('Gagal membuat dokumen PDF!');
+    }
   };
 
   const handleSortChange = (e) => {
@@ -109,17 +121,29 @@ const Transactions = () => {
                 </select>
               </div>
 
-              {/* Export CSV Button */}
-              <Button
-                variant="secondary"
-                size="sm"
-                icon={Download}
-                onClick={handleExport}
-                id="btn-export-csv"
-                className="trans-export-btn"
+              {/* Export PDF Button */}
+              <button
+                type="button"
+                className="trans-action-pill-btn trans-action-pill-btn--pdf"
+                onClick={handleExportPDF}
+                title="Cetak dan Unduh Laporan PDF"
+                id="btn-export-pdf"
               >
-                <span>Export CSV</span>
-              </Button>
+                <FileText size={15} />
+                <span>Export PDF</span>
+              </button>
+
+              {/* Export CSV Button */}
+              <button
+                type="button"
+                className="trans-action-pill-btn trans-action-pill-btn--csv"
+                onClick={handleExportCSV}
+                title="Unduh Data CSV (Excel)"
+                id="btn-export-csv"
+              >
+                <Download size={15} />
+                <span>CSV</span>
+              </button>
             </div>
           </div>
 

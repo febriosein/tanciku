@@ -7,10 +7,11 @@ import Button from '../components/ui/Button';
 import WalletModal from '../components/wallets/WalletModal';
 import InstallGuideModal from '../components/pwa/InstallGuideModal';
 import { formatCurrency } from '../utils/formatCurrency';
+import { exportPDF } from '../utils/exportPDF';
 import './Settings.css';
 
 const Settings = () => {
-  const { transactions, wallets, walletBalances, totalBalance, profile, dispatch } = useTransactions();
+  const { transactions, wallets, walletBalances, totalBalance, summary, profile, dispatch } = useTransactions();
   const { theme, setTheme } = useTheme();
   const toast = useToast();
 
@@ -74,6 +75,15 @@ const Settings = () => {
     URL.revokeObjectURL(url);
 
     toast.success('Backup data JSON berhasil diunduh!');
+  };
+
+  const handleExportPDF = () => {
+    try {
+      exportPDF(transactions, summary, 'Laporan Lengkap Seluruh Waktu', profile, wallets);
+      toast.success('Laporan PDF berhasil diunduh!');
+    } catch {
+      toast.error('Gagal membuat dokumen PDF!');
+    }
   };
 
   const handleImportJSON = (e) => {
@@ -415,6 +425,19 @@ const Settings = () => {
                       style={{ display: 'none' }}
                     />
                   </label>
+                </div>
+
+                <div className="data-action-card">
+                  <div className="data-action-card__icon-box" style={{ color: 'var(--color-expense)' }}>
+                    <span className="material-symbols-outlined">picture_as_pdf</span>
+                  </div>
+                  <div className="data-action-card__info">
+                    <h4>Laporan PDF</h4>
+                    <p>Cetak laporan keuangan resmi & siap cetak.</p>
+                  </div>
+                  <Button variant="secondary" size="sm" onClick={handleExportPDF} className="data-action-card__btn">
+                    Cetak PDF
+                  </Button>
                 </div>
               </div>
 

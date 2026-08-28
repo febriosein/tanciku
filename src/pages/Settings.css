@@ -654,9 +654,9 @@
   gap: 12px;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 540px) {
   .data-actions-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 }
 
