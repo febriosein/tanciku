@@ -7,7 +7,13 @@ import { getWalletById } from '../../utils/wallets';
 import TransactionModal from './TransactionModal';
 import './TransactionItem.css';
 
-const TransactionItem = ({ transaction }) => {
+const TransactionItem = ({
+  transaction,
+  isSelectionMode = false,
+  isSelected = false,
+  onToggleSelect,
+  onDuplicate,
+}) => {
   const { wallets, dispatch } = useTransactions();
   const toast = useToast();
   const [isEditing, setIsEditing] = useState(false);
@@ -39,9 +45,32 @@ const TransactionItem = ({ transaction }) => {
     ? `${transaction.note} • ${dateStr}`
     : dateStr;
 
+  const handleItemClick = (e) => {
+    if (isSelectionMode && onToggleSelect) {
+      e.stopPropagation();
+      onToggleSelect(transaction.id);
+    }
+  };
+
   return (
     <>
-      <div className="transaction-item">
+      <div
+        className={`transaction-item ${isSelectionMode ? 'transaction-item--selectable' : ''} ${isSelected ? 'transaction-item--selected' : ''}`}
+        onClick={handleItemClick}
+      >
+        {/* Selection Checkbox */}
+        {isSelectionMode && (
+          <div className="transaction-item__checkbox-wrapper" onClick={(e) => e.stopPropagation()}>
+            <input
+              type="checkbox"
+              className="transaction-checkbox"
+              checked={isSelected}
+              onChange={() => onToggleSelect && onToggleSelect(transaction.id)}
+              aria-label={`Pilih transaksi ${category.label}`}
+            />
+          </div>
+        )}
+
         <div className="transaction-item__left">
           <div
             className="transaction-item__icon-box"
@@ -67,26 +96,57 @@ const TransactionItem = ({ transaction }) => {
             {transaction.amount.toLocaleString('id-ID')}
           </div>
 
-          <div className="transaction-item__actions">
-            <button
-              className="action-btn"
-              onClick={() => setIsEditing(true)}
-              title="Edit"
-            >
-              <span className="material-symbols-outlined text-sm">edit</span>
-            </button>
-            <button
-              className="action-btn action-btn--danger"
-              onClick={() => setShowConfirm(true)}
-              title="Hapus"
-            >
-              <span className="material-symbols-outlined text-sm">delete</span>
-            </button>
-          </div>
+          {!isSelectionMode && (
+            <div className="transaction-item__actions">
+              {/* Quick Duplicate Button */}
+              <button
+                type="button"
+                className="action-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onDuplicate) {
+                    onDuplicate(transaction);
+                  }
+                }}
+                title="Duplikat / Salin Transaksi"
+                aria-label="Duplikat Transaksi"
+              >
+                <span className="material-symbols-outlined text-sm">content_copy</span>
+              </button>
+
+              {/* Edit Button */}
+              <button
+                type="button"
+                className="action-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsEditing(true);
+                }}
+                title="Edit"
+                aria-label="Edit Transaksi"
+              >
+                <span className="material-symbols-outlined text-sm">edit</span>
+              </button>
+
+              {/* Delete Button */}
+              <button
+                type="button"
+                className="action-btn action-btn--danger"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowConfirm(true);
+                }}
+                title="Hapus"
+                aria-label="Hapus Transaksi"
+              >
+                <span className="material-symbols-outlined text-sm">delete</span>
+              </button>
+            </div>
+          )}
         </div>
 
         {showConfirm && (
-          <div className="delete-confirm animate-fade-in">
+          <div className="delete-confirm animate-fade-in" onClick={(e) => e.stopPropagation()}>
             <span>Hapus transaksi ini?</span>
             <div className="delete-confirm__btns">
               <button className="confirm-btn confirm-btn--cancel" onClick={() => setShowConfirm(false)}>

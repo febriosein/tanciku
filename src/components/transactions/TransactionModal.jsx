@@ -44,8 +44,8 @@ const formatDisplayAmount = (val) => {
 /* =============================================
    MOBILE FULL-SCREEN COMPONENT
    ============================================= */
-const MobileAddTransaction = ({ isOpen, onClose, transaction, onSubmit, wallets }) => {
-  const isEditing = !!transaction;
+const MobileAddTransaction = ({ isOpen, onClose, transaction, isDuplicate = false, onSubmit, wallets }) => {
+  const isEditing = !!transaction && !isDuplicate;
   const defaultWalletId = wallets[0]?.id || 'cash';
   const [form, setForm] = useState({
     type: 'expense',
@@ -63,8 +63,10 @@ const MobileAddTransaction = ({ isOpen, onClose, transaction, onSubmit, wallets 
     if (transaction) {
       setForm({
         ...transaction,
+        id: isDuplicate ? undefined : transaction.id,
         amount: String(transaction.amount),
         wallet: transaction.wallet || defaultWalletId,
+        date: isDuplicate ? todayISO() : (transaction.date || todayISO()),
       });
     } else {
       setForm({
@@ -78,7 +80,7 @@ const MobileAddTransaction = ({ isOpen, onClose, transaction, onSubmit, wallets 
     }
     setError('');
     setTimeout(() => amountInputRef.current?.focus(), 200);
-  }, [transaction, isOpen, defaultWalletId]);
+  }, [transaction, isDuplicate, isOpen, defaultWalletId]);
 
   useEffect(() => {
     if (isOpen) {
@@ -174,7 +176,7 @@ const MobileAddTransaction = ({ isOpen, onClose, transaction, onSubmit, wallets 
           <span className="material-symbols-outlined">close</span>
         </button>
         <span className="ms-header-title">
-          {isEditing ? 'Edit Transaksi' : 'Transaksi Baru'}
+          {isDuplicate ? 'Duplikat Transaksi' : isEditing ? 'Edit Transaksi' : 'Transaksi Baru'}
         </span>
         <div className="ms-header-spacer" />
       </div>
@@ -391,7 +393,7 @@ const MobileAddTransaction = ({ isOpen, onClose, transaction, onSubmit, wallets 
 /* =============================================
    MAIN EXPORT — auto-switches mobile vs desktop
    ============================================= */
-const TransactionModal = ({ isOpen, onClose, transaction = null }) => {
+const TransactionModal = ({ isOpen, onClose, transaction, isDuplicate = false }) => {
   const { dispatch, wallets } = useTransactions();
   const toast = useToast();
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
@@ -403,12 +405,12 @@ const TransactionModal = ({ isOpen, onClose, transaction = null }) => {
   }, []);
 
   const handleSubmit = (payload) => {
-    if (transaction) {
+    if (transaction && !isDuplicate) {
       dispatch({ type: 'UPDATE_TRANSACTION', payload });
       toast.success('Transaksi berhasil diperbarui!');
     } else {
       dispatch({ type: 'ADD_TRANSACTION', payload });
-      toast.success('Transaksi baru berhasil ditambahkan!');
+      toast.success(isDuplicate ? 'Transaksi berhasil diduplikat!' : 'Transaksi baru berhasil ditambahkan!');
     }
   };
 
@@ -418,6 +420,7 @@ const TransactionModal = ({ isOpen, onClose, transaction = null }) => {
         isOpen={isOpen}
         onClose={onClose}
         transaction={transaction}
+        isDuplicate={isDuplicate}
         onSubmit={handleSubmit}
         wallets={wallets}
       />
@@ -429,6 +432,7 @@ const TransactionModal = ({ isOpen, onClose, transaction = null }) => {
       isOpen={isOpen}
       onClose={onClose}
       transaction={transaction}
+      isDuplicate={isDuplicate}
       onSubmit={handleSubmit}
       wallets={wallets}
     />
@@ -438,8 +442,8 @@ const TransactionModal = ({ isOpen, onClose, transaction = null }) => {
 /* =============================================
    DESKTOP MODAL COMPONENT
    ============================================= */
-const DesktopTransactionModal = ({ isOpen, onClose, transaction, onSubmit, wallets }) => {
-  const isEditing = !!transaction;
+const DesktopTransactionModal = ({ isOpen, onClose, transaction, isDuplicate = false, onSubmit, wallets }) => {
+  const isEditing = !!transaction && !isDuplicate;
   const defaultWalletId = wallets[0]?.id || 'cash';
   const [form, setForm] = useState({
     type: 'expense',
@@ -455,8 +459,10 @@ const DesktopTransactionModal = ({ isOpen, onClose, transaction, onSubmit, walle
     if (transaction) {
       setForm({
         ...transaction,
+        id: isDuplicate ? undefined : transaction.id,
         amount: String(transaction.amount),
         wallet: transaction.wallet || defaultWalletId,
+        date: isDuplicate ? todayISO() : (transaction.date || todayISO()),
       });
     } else {
       setForm({
@@ -469,7 +475,7 @@ const DesktopTransactionModal = ({ isOpen, onClose, transaction, onSubmit, walle
       });
     }
     setError('');
-  }, [transaction, isOpen, defaultWalletId]);
+  }, [transaction, isDuplicate, isOpen, defaultWalletId]);
 
   const handleTypeChange = (type) => {
     const defaultCat = type === 'income' ? 'salary' : 'food';

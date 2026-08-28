@@ -67,6 +67,36 @@ const transactionReducer = (state, action) => {
       };
     }
 
+    case 'DELETE_MULTIPLE_TRANSACTIONS': {
+      const idsToDelete = new Set(action.payload);
+      return {
+        ...state,
+        transactions: state.transactions.filter((t) => !idsToDelete.has(t.id)),
+      };
+    }
+
+    case 'CHANGE_MULTIPLE_WALLET': {
+      const { ids, wallet } = action.payload;
+      const targetIds = new Set(ids);
+      return {
+        ...state,
+        transactions: state.transactions.map((t) =>
+          targetIds.has(t.id) ? { ...t, wallet } : t
+        ),
+      };
+    }
+
+    case 'CHANGE_MULTIPLE_CATEGORY': {
+      const { ids, category } = action.payload;
+      const targetIds = new Set(ids);
+      return {
+        ...state,
+        transactions: state.transactions.map((t) =>
+          targetIds.has(t.id) ? { ...t, category } : t
+        ),
+      };
+    }
+
     case 'RESTORE_TRANSACTION': {
       const existing = state.transactions.find((t) => t.id === action.payload.id);
       if (existing) return state;
@@ -148,6 +178,8 @@ const initialState = {
     type: 'all',
     wallet: 'all',
     search: '',
+    minAmount: '',
+    maxAmount: '',
     sortBy: 'date-desc',
   },
 };
@@ -225,7 +257,13 @@ export const TransactionProvider = ({ children }) => {
       t.note?.toLowerCase().includes(state.filter.search.toLowerCase()) ||
       t.category.toLowerCase().includes(state.filter.search.toLowerCase());
 
-    return matchTime && matchCategory && matchType && matchWallet && matchSearch;
+    const min = Number(state.filter.minAmount);
+    const matchMin = isNaN(min) || min <= 0 || t.amount >= min;
+
+    const max = Number(state.filter.maxAmount);
+    const matchMax = isNaN(max) || max <= 0 || t.amount <= max;
+
+    return matchTime && matchCategory && matchType && matchWallet && matchSearch && matchMin && matchMax;
   });
 
   // Derived: sorted transactions

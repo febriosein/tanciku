@@ -4,6 +4,7 @@
   gap: 16px;
   width: 100%;
   box-sizing: border-box;
+  position: relative;
 }
 
 /* ===== 3-Metric Summary Bento Cards ===== */
@@ -81,6 +82,69 @@
 
 .text-expense {
   color: var(--color-expense) !important;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+/* ===== Mini Financial Insights Bar ===== */
+.trans-insights-bar {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--card-shadow);
+}
+
+@media (min-width: 768px) {
+  .trans-insights-bar {
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: 16px;
+  }
+}
+
+.trans-insight-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.trans-insight-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.trans-insight-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.trans-insight-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.trans-insight-val {
+  font-size: 12px;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trans-insight-val strong {
+  font-weight: 800;
 }
 
 /* ===== Main Card wrapping List ===== */
@@ -179,7 +243,7 @@
   color: var(--color-on-surface);
 }
 
-/* Action Pill Buttons (PDF & CSV) */
+/* Action Pill Buttons (Select, PDF & CSV) */
 .trans-action-pill-btn {
   display: inline-flex;
   align-items: center;
@@ -202,6 +266,13 @@
   transform: translateY(-1px);
 }
 
+.trans-action-pill-btn--active-select {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+}
+
 .trans-action-pill-btn--pdf {
   border-color: rgba(239, 68, 68, 0.3);
   color: var(--color-expense);
@@ -222,8 +293,206 @@
   border-color: #10b981;
 }
 
+/* Selection Subheader */
+.selection-subheader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: var(--color-surface-container);
+  border-bottom: 1px solid var(--color-surface-container-high);
+}
+
+.selection-select-all-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  cursor: pointer;
+}
+
+.selection-counter-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-primary);
+  background: var(--color-surface-container-lowest);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-surface-container-high);
+}
+
 .transactions-main-card__body {
   padding: 16px 20px;
+}
+
+/* ===== Floating Bulk Actions Bar ===== */
+.floating-bulk-bar {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: var(--color-surface-container-lowest);
+  border: 1.5px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  z-index: 99;
+  max-width: 90%;
+  width: 480px;
+}
+
+.floating-bulk-bar__info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  white-space: nowrap;
+}
+
+.floating-bulk-bar__count {
+  background: var(--color-primary);
+  color: #ffffff;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.floating-bulk-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.floating-bulk-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.floating-bulk-btn--wallet {
+  background: var(--color-surface-container-low);
+  border: 1px solid var(--color-surface-container-high);
+  color: var(--color-on-surface);
+}
+
+.floating-bulk-btn--wallet:hover {
+  background: var(--color-surface-container);
+  border-color: var(--color-primary);
+}
+
+.floating-bulk-btn--delete {
+  background: var(--color-expense);
+  color: #ffffff;
+}
+
+.floating-bulk-btn--delete:hover {
+  opacity: 0.9;
+}
+
+/* ===== Bulk Modals ===== */
+.bulk-confirm-modal {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  max-width: 420px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  box-shadow: var(--shadow-xl);
+}
+
+.bulk-confirm-modal__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--color-expense-bg);
+  color: var(--color-expense);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bulk-confirm-modal__icon--wallet {
+  background: rgba(99, 102, 241, 0.15);
+  color: var(--color-primary);
+}
+
+.bulk-confirm-modal__icon .material-symbols-outlined {
+  font-size: 26px;
+}
+
+.bulk-confirm-modal__title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-on-surface);
+}
+
+.bulk-confirm-modal__desc {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.5;
+}
+
+.bulk-wallet-select-wrapper {
+  width: 100%;
+  margin: 4px 0;
+}
+
+.bulk-wallet-select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-surface-container-high);
+  background: var(--color-surface-container-low);
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  outline: none;
+  cursor: pointer;
+}
+
+.bulk-wallet-select:focus {
+  border-color: var(--color-primary);
+}
+
+.bulk-confirm-modal__actions {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.confirm-btn--save {
+  background: var(--color-primary);
+  color: #ffffff;
 }
 
 /* Mobile responsive */
@@ -253,5 +522,24 @@
 
   .transactions-main-card__body {
     padding: 10px 12px;
+  }
+
+  .floating-bulk-bar {
+    width: 95%;
+    flex-direction: column;
+    border-radius: var(--radius-lg);
+    bottom: 80px;
+    gap: 10px;
+    padding: 12px 14px;
+  }
+
+  .floating-bulk-bar__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .floating-bulk-btn {
+    flex: 1;
+    justify-content: center;
   }
 }

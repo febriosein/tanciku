@@ -19,6 +19,32 @@
   background: var(--color-surface-container-low);
 }
 
+.transaction-item--selectable {
+  cursor: pointer;
+}
+
+.transaction-item--selected {
+  background: rgba(99, 102, 241, 0.08) !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Checkbox */
+.transaction-item__checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding-right: 4px;
+}
+
+.transaction-checkbox {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}
+
 /* Left side: icon + info */
 .transaction-item__left {
   display: flex;

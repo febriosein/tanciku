@@ -1,25 +1,61 @@
 .transaction-list {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   width: 100%;
 }
 
 .transaction-group {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 2px;
+}
+
+.transaction-group__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px 6px 4px;
+  border-bottom: 1px solid var(--color-surface-container-high);
+  margin-bottom: 2px;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .transaction-group__date {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 600;
   color: var(--color-on-surface-variant);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-surface-container-high);
-  margin-bottom: 4px;
+  letter-spacing: 0.03em;
+  text-transform: capitalize;
+}
+
+.transaction-group__date strong {
+  color: var(--color-primary);
+  font-weight: 800;
+}
+
+.transaction-group__subtotals {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.day-subtotal {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+}
+
+.day-subtotal--income {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+}
+
+.day-subtotal--expense {
+  background: var(--color-expense-bg);
+  color: var(--color-expense);
 }
 
 .transaction-group__items {

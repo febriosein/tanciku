@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTransactions } from '../../context/TransactionContext';
 import { ALL_CATEGORIES } from '../../utils/categories';
 import { todayISO } from '../../utils/formatDate';
@@ -13,6 +13,7 @@ const YEARS = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i);
 
 const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
   const { filter, wallets, dispatch } = useTransactions();
+  const [showCustomAmount, setShowCustomAmount] = useState(false);
 
   const setFilter = (payload) => {
     dispatch({ type: 'SET_FILTER', payload });
@@ -22,6 +23,38 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
     const mode = e.target.value;
     setFilter({ mode });
   };
+
+  const handleAmountPresetChange = (e) => {
+    const val = e.target.value;
+    if (val === 'all') {
+      setShowCustomAmount(false);
+      setFilter({ minAmount: '', maxAmount: '' });
+    } else if (val === 'under50k') {
+      setShowCustomAmount(false);
+      setFilter({ minAmount: '', maxAmount: 50000 });
+    } else if (val === '50k-500k') {
+      setShowCustomAmount(false);
+      setFilter({ minAmount: 50000, maxAmount: 500000 });
+    } else if (val === 'above500k') {
+      setShowCustomAmount(false);
+      setFilter({ minAmount: 500000, maxAmount: '' });
+    } else if (val === 'custom') {
+      setShowCustomAmount(true);
+    }
+  };
+
+  let activeAmountPreset = 'all';
+  if (showCustomAmount) {
+    activeAmountPreset = 'custom';
+  } else if (!filter.minAmount && filter.maxAmount === 50000) {
+    activeAmountPreset = 'under50k';
+  } else if (filter.minAmount === 50000 && filter.maxAmount === 500000) {
+    activeAmountPreset = '50k-500k';
+  } else if (filter.minAmount === 500000 && !filter.maxAmount) {
+    activeAmountPreset = 'above500k';
+  } else if (filter.minAmount || filter.maxAmount) {
+    activeAmountPreset = 'custom';
+  }
 
   return (
     <div className="filter-card">
@@ -177,6 +210,59 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
             ))}
           </select>
         </div>
+
+        {/* Nominal Range Preset Filter */}
+        <div className="filter-select-wrapper">
+          <select
+            className="filter-card__select"
+            value={activeAmountPreset}
+            onChange={handleAmountPresetChange}
+            id="select-amount-range"
+            title="Filter Nominal"
+          >
+            <option value="all">Semua Nominal</option>
+            <option value="under50k">&lt; Rp 50.000 (Kecil)</option>
+            <option value="50k-500k">Rp 50rb - 500rb</option>
+            <option value="above500k">&gt; Rp 500.000 (Besar)</option>
+            <option value="custom">Nominal Kustom...</option>
+          </select>
+        </div>
+
+        {/* Custom Min & Max Inputs */}
+        {(showCustomAmount || (activeAmountPreset === 'custom' && (filter.minAmount || filter.maxAmount))) && (
+          <div className="filter-card__custom-amount">
+            <input
+              type="number"
+              inputMode="numeric"
+              className="filter-card__amount-input"
+              placeholder="Min (Rp)"
+              value={filter.minAmount || ''}
+              onChange={(e) => setFilter({ minAmount: e.target.value })}
+              title="Nominal Minimum"
+            />
+            <span className="filter-card__date-sep">-</span>
+            <input
+              type="number"
+              inputMode="numeric"
+              className="filter-card__amount-input"
+              placeholder="Max (Rp)"
+              value={filter.maxAmount || ''}
+              onChange={(e) => setFilter({ maxAmount: e.target.value })}
+              title="Nominal Maksimum"
+            />
+            <button
+              type="button"
+              className="filter-card__clear-amount"
+              onClick={() => {
+                setShowCustomAmount(false);
+                setFilter({ minAmount: '', maxAmount: '' });
+              }}
+              title="Reset Filter Nominal"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
