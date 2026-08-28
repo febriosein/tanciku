@@ -5,6 +5,7 @@ import { useTheme } from '../context/ThemeContext';
 import { useToast } from '../context/ToastContext';
 import Button from '../components/ui/Button';
 import WalletModal from '../components/wallets/WalletModal';
+import InstallGuideModal from '../components/pwa/InstallGuideModal';
 import { formatCurrency } from '../utils/formatCurrency';
 import './Settings.css';
 
@@ -20,6 +21,9 @@ const Settings = () => {
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWalletToEdit, setSelectedWalletToEdit] = useState(null);
   const [walletToDelete, setWalletToDelete] = useState(null);
+
+  // PWA Install Modal state
+  const [installModalOpen, setInstallModalOpen] = useState(false);
 
   const handleSaveProfile = (e) => {
     e.preventDefault();
@@ -248,6 +252,39 @@ const Settings = () => {
           </div>
         </div>
 
+        {/* PWA & Mobile Home Screen Section */}
+        <div className="card-soft settings-card">
+          <div className="settings-card__header settings-card__header--between">
+            <div className="settings-card__header-left">
+              <span className="material-symbols-outlined settings-icon">install_mobile</span>
+              <div>
+                <h3 className="settings-title">Aplikasi Web di Layar Utama (PWA)</h3>
+                <p className="settings-desc">Pasang Tanciku di layar utama Android atau iPhone Anda</p>
+              </div>
+            </div>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setInstallModalOpen(true)}
+            >
+              <span className="material-symbols-outlined text-sm">add_to_home_screen</span>
+              <span>Panduan Pasang</span>
+            </Button>
+          </div>
+          <div className="settings-card__body">
+            <div className="pwa-settings-banner" onClick={() => setInstallModalOpen(true)} role="button" tabIndex={0}>
+              <img src="/apple-touch-icon.png" alt="Tanciku App Logo" className="pwa-settings-banner__logo" />
+              <div className="pwa-settings-banner__text">
+                <strong className="pwa-settings-banner__headline">Gunakan Tanciku seperti Aplikasi Native</strong>
+                <p className="pwa-settings-banner__sub">
+                  Akses instan dari Home Screen HP, tanpa address bar browser, hemat memori, dan offline-ready.
+                </p>
+              </div>
+              <span className="material-symbols-outlined pwa-settings-banner__arrow">arrow_forward</span>
+            </div>
+          </div>
+        </div>
+
         {/* Appearance & Theme Section */}
         <div className="card-soft settings-card">
           <div className="settings-card__header">
@@ -373,7 +410,11 @@ const Settings = () => {
           <div className="settings-card__body">
             <div className="settings-info-row">
               <span>Versi Aplikasi</span>
-              <span className="font-semibold">v1.2.0 (Custom Wallets Edition)</span>
+              <span className="font-semibold">v1.3.0 (PWA Mobile Edition)</span>
+            </div>
+            <div className="settings-info-row">
+              <span>Tipe Aplikasi</span>
+              <span className="font-semibold">Progressive Web App (PWA)</span>
             </div>
             <div className="settings-info-row">
               <span>Total Dompet Aktif</span>
@@ -396,6 +437,12 @@ const Settings = () => {
         isOpen={walletModalOpen}
         onClose={() => setWalletModalOpen(false)}
         wallet={selectedWalletToEdit}
+      />
+
+      {/* PWA Install Guide Modal */}
+      <InstallGuideModal
+        isOpen={installModalOpen}
+        onClose={() => setInstallModalOpen(false)}
       />
 
       {/* Delete Wallet Confirmation Dialog */}

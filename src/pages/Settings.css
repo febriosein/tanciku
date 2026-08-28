@@ -309,6 +309,58 @@
   pointer-events: none;
 }
 
+/* ===== PWA Home Screen Banner in Settings ===== */
+.pwa-settings-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--color-surface-container-low);
+  border: 1.5px solid var(--color-surface-container-high);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pwa-settings-banner:hover {
+  border-color: var(--color-primary);
+  background: var(--color-surface-container);
+  transform: translateY(-1px);
+}
+
+.pwa-settings-banner__logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.pwa-settings-banner__text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.pwa-settings-banner__headline {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+}
+
+.pwa-settings-banner__sub {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.4;
+}
+
+.pwa-settings-banner__arrow {
+  color: var(--color-primary);
+  font-size: 20px;
+}
+
 /* Theme Option Cards */
 .theme-options-grid {
   display: grid;

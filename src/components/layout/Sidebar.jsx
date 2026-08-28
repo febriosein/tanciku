@@ -24,9 +24,7 @@ const Sidebar = ({ isOpen, onClose }) => {
       <aside className={`sidebar ${isOpen ? 'sidebar--open-mobile' : ''}`}>
         {/* Logo */}
         <div className="sidebar__logo-wrapper">
-          <div className="sidebar__logo-icon">
-            <span className="material-symbols-outlined">account_balance_wallet</span>
-          </div>
+          <img src="/favicon.png" alt="Tanciku Logo" className="sidebar__logo-img" />
           <span className="sidebar__logo-text">Tanciku</span>
         </div>
 

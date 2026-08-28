@@ -23,6 +23,19 @@ const Header = ({ title, subtitle, showGreeting = false }) => {
         </div>
 
         <div className="page-header__actions">
+          {/* Theme Toggle Button */}
+          <button
+            type="button"
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Ganti ke Mode Terang' : 'Ganti ke Mode Gelap'}
+            aria-label="Toggle Theme"
+          >
+            <span className="material-symbols-outlined">
+              {theme === 'dark' ? 'light_mode' : 'dark_mode'}
+            </span>
+          </button>
+
           {/* Add Transaction Button */}
           <button
             className="page-header__add-btn"

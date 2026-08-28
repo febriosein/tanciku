@@ -16,9 +16,7 @@ const MobileTopBar = ({ onOpenSidebar }) => {
           <span className="material-symbols-outlined">menu</span>
         </button>
         <div className="mobile-top-bar__brand">
-          <div className="mobile-top-bar__logo-icon">
-            <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>account_balance_wallet</span>
-          </div>
+          <img src="/favicon.png" alt="Tanciku Logo" className="mobile-top-bar__logo-img" />
           <h1 className="mobile-top-bar__title">Tanciku</h1>
         </div>
       </div>
