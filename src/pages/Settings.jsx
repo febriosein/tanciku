@@ -538,7 +538,7 @@ const Settings = () => {
 
       {/* Delete Wallet Confirmation Dialog */}
       {walletToDelete && (
-        <div className="modal-overlay animate-fade-in">
+        <div className="modal-overlay modal-overlay--center animate-fade-in">
           <div className="delete-wallet-dialog animate-scale-in">
             <div className="delete-wallet-dialog__icon">
               <span className="material-symbols-outlined">warning</span>

@@ -1,7 +1,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(27, 27, 36, 0.5);
+  background: rgba(27, 27, 36, 0.55);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   z-index: 1000;
@@ -9,6 +9,12 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
+}
+
+.modal-overlay--center {
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 16px !important;
 }
 
 .modal-container {
@@ -68,24 +74,24 @@
   padding: 20px;
 }
 
-/* Mobile: full-width bottom sheet */
+/* Mobile: bottom sheet only for standard modal containers, keep center for alerts/dialogs */
 @media (max-width: 600px) {
-  .modal-overlay {
+  .modal-overlay:not(.modal-overlay--center) {
     align-items: flex-end;
     padding: 0;
   }
-  .modal-container {
+  .modal-overlay:not(.modal-overlay--center) .modal-container {
     max-width: 100%;
     width: 100%;
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
     max-height: 95dvh;
     animation: slideUp 0.28s cubic-bezier(0.4,0,0.2,1) forwards;
   }
-  .modal-header {
+  .modal-overlay:not(.modal-overlay--center) .modal-header {
     border-radius: var(--radius-2xl) var(--radius-2xl) 0 0;
     padding: 14px 16px;
   }
-  .modal-body {
+  .modal-overlay:not(.modal-overlay--center) .modal-body {
     padding: 16px;
     padding-bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   }

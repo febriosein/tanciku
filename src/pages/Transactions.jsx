@@ -368,7 +368,7 @@ const Transactions = () => {
 
       {/* Bulk Delete Confirmation Dialog */}
       {showBulkDeleteConfirm && (
-        <div className="modal-overlay animate-fade-in">
+        <div className="modal-overlay modal-overlay--center animate-fade-in">
           <div className="bulk-confirm-modal animate-scale-in">
             <div className="bulk-confirm-modal__icon">
               <span className="material-symbols-outlined">delete_sweep</span>
@@ -401,7 +401,7 @@ const Transactions = () => {
 
       {/* Bulk Wallet Change Modal */}
       {showBulkWalletModal && (
-        <div className="modal-overlay animate-fade-in">
+        <div className="modal-overlay modal-overlay--center animate-fade-in">
           <div className="bulk-confirm-modal animate-scale-in">
             <div className="bulk-confirm-modal__icon bulk-confirm-modal__icon--wallet">
               <span className="material-symbols-outlined">account_balance_wallet</span>

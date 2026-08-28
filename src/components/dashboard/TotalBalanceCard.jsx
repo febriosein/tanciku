@@ -35,7 +35,7 @@ const TotalBalanceCard = () => {
             <div className="total-balance-card__icon-box">
               <span className="material-symbols-outlined">account_balance_wallet</span>
             </div>
-            <span className="total-balance-card__label">Total Saldo Gabungan (Semua Dompet)</span>
+            <span className="total-balance-card__label">Total Saldo</span>
           </div>
 
           <button

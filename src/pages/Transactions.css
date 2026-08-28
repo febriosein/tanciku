@@ -502,16 +502,18 @@
 .bulk-confirm-modal {
   background: var(--color-surface-container-lowest);
   border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-xl);
-  padding: 24px;
-  max-width: 420px;
-  width: 90%;
+  border-radius: var(--radius-2xl);
+  padding: 24px 20px;
+  max-width: 400px;
+  width: calc(100% - 32px);
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: 12px;
-  box-shadow: var(--shadow-xl);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
 }
 
 .bulk-confirm-modal__icon {

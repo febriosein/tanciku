@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { X } from 'lucide-react';
 import './Modal.css';
 
-const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
+const Modal = ({ isOpen, onClose, title, children, size = 'md', centered = false }) => {
   const overlayRef = useRef(null);
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Modal = ({ isOpen, onClose, title, children, size = 'md' }) => {
 
   return (
     <div
-      className="modal-overlay animate-fade-in"
+      className={`modal-overlay ${centered ? 'modal-overlay--center' : ''} animate-fade-in`}
       ref={overlayRef}
       onClick={handleOverlayClick}
       role="dialog"
