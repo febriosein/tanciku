@@ -220,14 +220,14 @@ const Transactions = () => {
         {/* Action Controls & Transaction List Card */}
         <div className="transactions-main-card">
           <div className="transactions-main-card__header">
-            <div className="transactions-main-card__title-group">
-              <h3 className="transactions-main-card__title">Riwayat Catatan</h3>
-              <span className="transactions-main-card__badge">
-                {filteredTransactions.length} Transaksi
-              </span>
-            </div>
+            <div className="transactions-main-card__top-row">
+              <div className="transactions-main-card__title-group">
+                <h3 className="transactions-main-card__title">Riwayat Catatan</h3>
+                <span className="transactions-main-card__badge">
+                  {filteredTransactions.length} Transaksi
+                </span>
+              </div>
 
-            <div className="transactions-main-card__actions">
               {/* Toggle Selection Mode Button */}
               <button
                 type="button"
@@ -246,7 +246,9 @@ const Transactions = () => {
                 </span>
                 <span>{isSelectionMode ? 'Selesai' : 'Pilih'}</span>
               </button>
+            </div>
 
+            <div className="transactions-main-card__controls-row">
               {/* Sorting Dropdown */}
               <div className="trans-sort-pill">
                 <span className="material-symbols-outlined trans-sort-icon">sort</span>
@@ -273,7 +275,7 @@ const Transactions = () => {
                 id="btn-export-pdf"
               >
                 <FileText size={14} />
-                <span>Export PDF</span>
+                <span>PDF</span>
               </button>
 
               {/* Export CSV Button */}

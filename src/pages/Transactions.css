@@ -5,19 +5,27 @@
   width: 100%;
   box-sizing: border-box;
   position: relative;
+  padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .transactions-container {
+    padding-bottom: 85px; /* Prevent bottom bar overlap on mobile */
+  }
 }
 
 /* ===== 3-Metric Summary Bento Cards ===== */
 .transactions-metrics-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
 @media (min-width: 640px) {
   .transactions-metrics-grid {
     grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
   }
 }
 
@@ -26,7 +34,7 @@
   border: 1px solid var(--color-surface-container-high);
   border-radius: var(--radius-lg);
   box-shadow: var(--card-shadow);
-  padding: 14px 18px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -93,7 +101,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
-  padding: 12px 16px;
+  padding: 12px 14px;
   background: var(--color-surface-container-lowest);
   border: 1px solid var(--color-surface-container-high);
   border-radius: var(--radius-lg);
@@ -105,6 +113,7 @@
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
     gap: 16px;
+    padding: 12px 18px;
   }
 }
 
@@ -162,54 +171,97 @@
 
 .transactions-main-card__header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
+  flex-direction: column;
+  gap: 12px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--color-surface-container-high);
   background: var(--color-surface-container-low);
-  flex-wrap: wrap;
-  gap: 12px;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .transactions-main-card__header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+  }
+}
+
+.transactions-main-card__top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .transactions-main-card__top-row {
+    width: auto;
+  }
 }
 
 .transactions-main-card__title-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .transactions-main-card__title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
   color: var(--color-on-surface);
+  white-space: nowrap;
 }
 
 .transactions-main-card__badge {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: var(--radius-full);
   background: var(--color-surface-container-lowest);
   border: 1px solid var(--color-surface-container-high);
   color: var(--color-on-surface-variant);
+  white-space: nowrap;
 }
 
-.transactions-main-card__actions {
-  display: flex;
+.transactions-main-card__controls-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .transactions-main-card__controls-row {
+    display: flex;
+    width: auto;
+    gap: 8px;
+  }
 }
 
 /* Sort Pill */
 .trans-sort-pill {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   background: var(--color-surface-container-lowest);
   border: 1px solid var(--color-surface-container-high);
   border-radius: var(--radius-full);
-  padding: 5px 10px 5px 12px;
+  padding: 5px 8px;
   transition: border-color var(--transition-fast);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .trans-sort-pill {
+    width: auto;
+    padding: 5px 12px;
+  }
 }
 
 .trans-sort-pill:hover {
@@ -217,25 +269,36 @@
 }
 
 .trans-sort-icon {
-  font-size: 16px;
+  font-size: 15px;
   color: var(--color-on-surface-variant);
+  flex-shrink: 0;
 }
 
 .trans-sort-select {
   background: transparent;
   border: none;
   font-family: var(--font-family);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--color-on-surface);
   outline: none;
   cursor: pointer;
   appearance: none;
-  padding-right: 16px;
+  padding-right: 14px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2388849e' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right center;
-  background-size: 12px;
+  background-size: 10px;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .trans-sort-select {
+    font-size: 12px;
+    padding-right: 16px;
+    background-size: 12px;
+  }
 }
 
 .trans-sort-select option {
@@ -248,18 +311,29 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 6px 14px;
+  gap: 4px;
+  padding: 5px 10px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-surface-container-high);
   background: var(--color-surface-container-lowest);
   color: var(--color-on-surface);
   font-family: var(--font-family);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   transition: all var(--transition-fast);
   white-space: nowrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .trans-action-pill-btn {
+    font-size: 12px;
+    padding: 6px 14px;
+    gap: 6px;
+    width: auto;
+  }
 }
 
 .trans-action-pill-btn:hover {
@@ -298,7 +372,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 8px 14px;
   background: var(--color-surface-container);
   border-bottom: 1px solid var(--color-surface-container-high);
 }
@@ -324,34 +398,47 @@
 }
 
 .transactions-main-card__body {
-  padding: 16px 20px;
+  padding: 10px 12px;
+}
+
+@media (min-width: 768px) {
+  .transactions-main-card__body {
+    padding: 16px 20px;
+  }
 }
 
 /* ===== Floating Bulk Actions Bar ===== */
 .floating-bulk-bar {
   position: fixed;
-  bottom: 24px;
+  bottom: 85px; /* Above mobile bottom bar */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 12px 20px;
+  gap: 12px;
+  padding: 10px 16px;
   background: var(--color-surface-container-lowest);
   border: 1.5px solid var(--color-primary);
   border-radius: var(--radius-full);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   z-index: 99;
-  max-width: 90%;
-  width: 480px;
+  max-width: 92%;
+  width: 440px;
+}
+
+@media (min-width: 768px) {
+  .floating-bulk-bar {
+    bottom: 24px;
+    padding: 12px 20px;
+  }
 }
 
 .floating-bulk-bar__info {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: var(--color-on-surface);
   white-space: nowrap;
@@ -360,30 +447,30 @@
 .floating-bulk-bar__count {
   background: var(--color-primary);
   color: #ffffff;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 800;
 }
 
 .floating-bulk-bar__actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .floating-bulk-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
+  gap: 4px;
+  padding: 6px 12px;
   border-radius: var(--radius-full);
   font-family: var(--font-family);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   cursor: pointer;
   border: none;
@@ -493,53 +580,4 @@
 .confirm-btn--save {
   background: var(--color-primary);
   color: #ffffff;
-}
-
-/* Mobile responsive */
-@media (max-width: 640px) {
-  .transactions-main-card__header {
-    padding: 14px 16px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .transactions-main-card__actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .trans-sort-pill {
-    grid-column: 1 / -1;
-    width: 100%;
-    justify-content: center;
-  }
-
-  .trans-action-pill-btn {
-    width: 100%;
-  }
-
-  .transactions-main-card__body {
-    padding: 10px 12px;
-  }
-
-  .floating-bulk-bar {
-    width: 95%;
-    flex-direction: column;
-    border-radius: var(--radius-lg);
-    bottom: 80px;
-    gap: 10px;
-    padding: 12px 14px;
-  }
-
-  .floating-bulk-bar__actions {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .floating-bulk-btn {
-    flex: 1;
-    justify-content: center;
-  }
 }

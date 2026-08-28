@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useTransactions } from '../../context/TransactionContext';
 import { useToast } from '../../context/ToastContext';
-import { formatDate } from '../../utils/formatDate';
 import { getCategoryById } from '../../utils/categories';
 import { getWalletById } from '../../utils/wallets';
 import TransactionModal from './TransactionModal';
@@ -40,11 +39,6 @@ const TransactionItem = ({
     });
   };
 
-  const dateStr = formatDate(transaction.date);
-  const subtitle = transaction.note
-    ? `${transaction.note} • ${dateStr}`
-    : dateStr;
-
   const handleItemClick = (e) => {
     if (isSelectionMode && onToggleSelect) {
       e.stopPropagation();
@@ -71,64 +65,68 @@ const TransactionItem = ({
           </div>
         )}
 
-        <div className="transaction-item__left">
-          <div
-            className="transaction-item__icon-box"
-            style={{ backgroundColor: `${category.color}20` }}
-          >
-            <span>{category.icon}</span>
-          </div>
-          <div className="transaction-item__info">
-            <div className="transaction-item__title-row">
-              <span className="transaction-item__title">{category.label}</span>
-              <span className="transaction-item__wallet-badge" style={{ '--w-color': wallet.color }}>
-                <span className="material-symbols-outlined" style={{ fontSize: '12px' }}>{wallet.icon}</span>
-                {wallet.label}
-              </span>
-            </div>
-            <div className="transaction-item__sub">{subtitle}</div>
+        {/* Category Icon */}
+        <div
+          className="transaction-item__icon-box"
+          style={{ backgroundColor: `${category.color}18`, color: category.color }}
+        >
+          <span>{category.icon}</span>
+        </div>
+
+        {/* Center Main Info: Title + Subrow (Wallet & Note) */}
+        <div className="transaction-item__info">
+          <div className="transaction-item__title">{category.label}</div>
+          <div className="transaction-item__subrow">
+            <span className="transaction-item__wallet-badge" style={{ '--w-color': wallet.color }}>
+              <span className="material-symbols-outlined">{wallet.icon}</span>
+              <span>{wallet.label}</span>
+            </span>
+            {transaction.note && (
+              <span className="transaction-item__note">{transaction.note}</span>
+            )}
           </div>
         </div>
 
+        {/* Right Info: Amount on Top, Action Buttons on Bottom */}
         <div className="transaction-item__right">
-          <div className={`transaction-item__amount ${isIncome ? 'income' : 'expense'}`}>
+          <span className={`transaction-item__amount ${isIncome ? 'income' : 'expense'}`}>
             {isIncome ? '+Rp ' : '-Rp '}
             {transaction.amount.toLocaleString('id-ID')}
-          </div>
+          </span>
 
           {!isSelectionMode && (
             <div className="transaction-item__actions">
-              {/* Quick Duplicate Button */}
+              {/* Quick Duplicate */}
               <button
                 type="button"
-                className="action-btn"
+                className="action-btn action-btn--dup"
                 onClick={(e) => {
                   e.stopPropagation();
                   if (onDuplicate) {
                     onDuplicate(transaction);
                   }
                 }}
-                title="Duplikat / Salin Transaksi"
+                title="Duplikat Transaksi"
                 aria-label="Duplikat Transaksi"
               >
-                <span className="material-symbols-outlined text-sm">content_copy</span>
+                <span className="material-symbols-outlined">content_copy</span>
               </button>
 
-              {/* Edit Button */}
+              {/* Edit */}
               <button
                 type="button"
-                className="action-btn"
+                className="action-btn action-btn--edit"
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsEditing(true);
                 }}
-                title="Edit"
+                title="Edit Transaksi"
                 aria-label="Edit Transaksi"
               >
-                <span className="material-symbols-outlined text-sm">edit</span>
+                <span className="material-symbols-outlined">edit</span>
               </button>
 
-              {/* Delete Button */}
+              {/* Delete */}
               <button
                 type="button"
                 className="action-btn action-btn--danger"
@@ -136,10 +134,10 @@ const TransactionItem = ({
                   e.stopPropagation();
                   setShowConfirm(true);
                 }}
-                title="Hapus"
+                title="Hapus Transaksi"
                 aria-label="Hapus Transaksi"
               >
-                <span className="material-symbols-outlined text-sm">delete</span>
+                <span className="material-symbols-outlined">delete</span>
               </button>
             </div>
           )}
