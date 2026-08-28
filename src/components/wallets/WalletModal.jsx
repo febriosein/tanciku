@@ -109,6 +109,10 @@ const WalletModal = ({ isOpen, onClose, wallet = null }) => {
               id="wallet-balance"
               type="text"
               inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
               className="wallet-form__input wallet-form__amount-input"
               placeholder="0"
               value={formatDisplayAmount(form.initialBalance)}

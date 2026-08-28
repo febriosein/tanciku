@@ -1,162 +1,218 @@
-.transactions-page {
+.transactions-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  width: 100%;
-}
-
-/* ===== Summary Row ===== */
-.transactions-summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 20px;
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--card-shadow);
-  flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
 }
 
-.transactions-summary__stats {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+/* ===== 3-Metric Summary Bento Cards ===== */
+.transactions-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  width: 100%;
 }
 
-.transactions-summary__item {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+@media (min-width: 640px) {
+  .transactions-metrics-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
-.transactions-summary__label {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  color: var(--color-on-surface-variant);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.transactions-summary__value {
-  font-size: var(--font-size-xl);
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: var(--color-on-surface);
-}
-
-.transactions-summary__value.income  { color: #10b981; }
-.transactions-summary__value.expense { color: var(--color-expense); }
-
-.transactions-summary__divider {
-  width: 1px;
-  height: 36px;
-  background: var(--color-surface-container-highest);
-  flex-shrink: 0;
-}
-
-.transactions-summary__actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: auto;
-}
-
-/* Sorting selector */
-.transactions-sort-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: var(--color-surface-container);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-sm);
-  padding: 0 8px 0 10px;
-}
-
-.transactions-sort-wrapper .sort-icon {
-  font-size: 16px;
-  color: var(--color-on-surface-variant);
-  margin-right: 4px;
-}
-
-.transactions-sort-select {
-  background: transparent;
-  border: none;
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--color-on-surface);
-  padding: 7px 20px 7px 2px;
-  outline: none;
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2388849e' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 2px center;
-  background-size: 12px;
-}
-
-.transactions-sort-select option {
-  background: var(--color-surface-container-lowest);
-  color: var(--color-on-surface);
-}
-
-/* ===== Card wrapping the list ===== */
-.transactions-card {
+.trans-metric-card {
   background: var(--color-surface-container-lowest);
   border: 1px solid var(--color-surface-container-high);
   border-radius: var(--radius-lg);
   box-shadow: var(--card-shadow);
-  padding: 20px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.trans-metric-card:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.trans-metric-card__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.trans-metric-card__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot--income {
+  background: #10b981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
+}
+
+.dot--expense {
+  background: var(--color-expense);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.trans-metric-card__label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.trans-metric-card__value {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-on-surface);
+  letter-spacing: -0.4px;
+}
+
+.text-income {
+  color: #10b981 !important;
+}
+
+.text-expense {
+  color: var(--color-expense) !important;
+}
+
+/* ===== Main Card wrapping List ===== */
+.transactions-main-card {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .transactions-summary {
+.transactions-main-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--color-surface-container-high);
+  background: var(--color-surface-container-low);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.transactions-main-card__title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transactions-main-card__title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--color-on-surface);
+}
+
+.transactions-main-card__badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  color: var(--color-on-surface-variant);
+}
+
+.transactions-main-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Sort Pill */
+.trans-sort-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-surface-container-high);
+  border-radius: var(--radius-full);
+  padding: 4px 10px 4px 12px;
+  transition: border-color var(--transition-fast);
+}
+
+.trans-sort-pill:hover {
+  border-color: var(--color-primary);
+}
+
+.trans-sort-icon {
+  font-size: 16px;
+  color: var(--color-on-surface-variant);
+}
+
+.trans-sort-select {
+  background: transparent;
+  border: none;
+  font-family: var(--font-family);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  padding-right: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2388849e' stroke-width='2'%3E%3Cpolyline points='6,9 12,15 18,9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: 12px;
+}
+
+.trans-sort-select option {
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
+}
+
+.trans-export-btn {
+  border-radius: var(--radius-full) !important;
+}
+
+.transactions-main-card__body {
+  padding: 16px 20px;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .transactions-main-card__header {
+    padding: 14px 16px;
     flex-direction: column;
     align-items: stretch;
-    gap: 14px;
-    padding: 14px 16px;
-  }
-
-  .transactions-summary__stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 12px;
   }
 
-  .transactions-summary__value {
-    font-size: var(--font-size-lg);
-  }
-
-  .transactions-summary__divider {
-    display: none;
-  }
-
-  .transactions-summary__actions {
-    margin-left: 0;
+  .transactions-main-card__actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
 
-  .transactions-sort-wrapper {
+  .trans-sort-pill {
     width: 100%;
     justify-content: center;
   }
 
-  .transactions-sort-select {
+  .trans-export-btn {
     width: 100%;
+    justify-content: center;
   }
 
-  .transactions-card {
-    padding: 14px;
+  .transactions-main-card__body {
+    padding: 10px 12px;
   }
 }

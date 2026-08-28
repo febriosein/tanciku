@@ -15,6 +15,7 @@ const Settings = () => {
   const toast = useToast();
 
   const [userName, setUserName] = useState(profile?.name || 'Renno');
+  const [isEditingName, setIsEditingName] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   // Wallet Modal state
@@ -26,13 +27,14 @@ const Settings = () => {
   const [installModalOpen, setInstallModalOpen] = useState(false);
 
   const handleSaveProfile = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     if (!userName.trim()) {
       toast.error('Nama profil tidak boleh kosong');
       return;
     }
     dispatch({ type: 'SET_PROFILE', payload: { name: userName.trim() } });
-    toast.success('Profil berhasil disimpan!');
+    setIsEditingName(false);
+    toast.success('Nama profil berhasil disimpan!');
   };
 
   const handleOpenAddWallet = () => {
@@ -54,7 +56,7 @@ const Settings = () => {
 
   const handleExportJSON = () => {
     const backupData = {
-      version: '1.2.0',
+      version: '1.3.0',
       exportedAt: new Date().toISOString(),
       profile,
       wallets,
@@ -108,140 +110,253 @@ const Settings = () => {
   const handleResetData = () => {
     dispatch({ type: 'RESET_TRANSACTIONS' });
     setShowResetConfirm(false);
-    toast.info('Data transaksi dan dompet direset ke data bawaan!');
+    toast.info('Data transaksi dan dompet direset ke data sampel bawaan!');
   };
+
+  const userInitial = (userName || 'R').charAt(0).toUpperCase();
 
   return (
     <>
-      <Header title="Setelan" subtitle="Pengaturan profil, dompet, tema, dan manajemen data" />
+      <Header title="Pengaturan" subtitle="Kelola preferensi akun, dompet, tampilan, dan cadangan data" />
 
-      <div className="settings-page">
-        {/* Profil Section */}
-        <div className="card-soft settings-card">
-          <div className="settings-card__header">
-            <span className="material-symbols-outlined settings-icon">person</span>
-            <div>
-              <h3 className="settings-title">Profil Pengguna</h3>
-              <p className="settings-desc">Atur identitas aplikasi Anda</p>
+      <div className="settings-container">
+        {/* Top Grid: Profile & Preferences */}
+        <div className="settings-grid-two">
+          {/* Profile Card */}
+          <div className="settings-panel">
+            <div className="settings-panel__header">
+              <div className="settings-panel__title-group">
+                <div className="settings-panel__icon">
+                  <span className="material-symbols-outlined">person</span>
+                </div>
+                <div>
+                  <h3 className="settings-panel__title">Profil Pengguna</h3>
+                  <p className="settings-panel__subtitle">Nama panggilan & identitas akun</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="settings-panel__body">
+              <div className="profile-hero-card">
+                <div className="profile-hero-avatar">{userInitial}</div>
+                <div className="profile-hero-details">
+                  {!isEditingName ? (
+                    <div className="profile-name-display">
+                      <div className="profile-name-row">
+                        <span className="profile-name-text">{userName}</span>
+                        <button
+                          type="button"
+                          className="profile-edit-btn"
+                          onClick={() => setIsEditingName(true)}
+                          title="Ubah Nama"
+                        >
+                          <span className="material-symbols-outlined">edit</span>
+                        </button>
+                      </div>
+                      <span className="profile-currency-badge">
+                        <span className="material-symbols-outlined">payments</span>
+                        Rupiah Indonesia (IDR - Rp)
+                      </span>
+                    </div>
+                  ) : (
+                    <form onSubmit={handleSaveProfile} className="profile-name-form">
+                      <input
+                        type="text"
+                        className="profile-name-input"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                        placeholder="Nama Anda"
+                        maxLength={30}
+                        autoFocus
+                      />
+                      <div className="profile-form-actions">
+                        <button
+                          type="button"
+                          className="profile-btn-cancel"
+                          onClick={() => {
+                            setUserName(profile?.name || 'Renno');
+                            setIsEditingName(false);
+                          }}
+                        >
+                          Batal
+                        </button>
+                        <button type="submit" className="profile-btn-save">
+                          Simpan
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
-          <form onSubmit={handleSaveProfile} className="settings-card__body">
-            <div className="settings-field">
-              <label htmlFor="user-name">Nama Profil</label>
-              <div className="settings-field-row">
-                <input
-                  id="user-name"
-                  type="text"
-                  className="settings-input"
-                  value={userName}
-                  onChange={(e) => setUserName(e.target.value)}
-                  placeholder="Masukkan nama Anda"
-                  maxLength={30}
-                />
-                <Button type="submit" variant="primary" size="sm">
-                  Simpan
-                </Button>
+
+          {/* Theme & Appearance Card */}
+          <div className="settings-panel">
+            <div className="settings-panel__header">
+              <div className="settings-panel__title-group">
+                <div className="settings-panel__icon">
+                  <span className="material-symbols-outlined">palette</span>
+                </div>
+                <div>
+                  <h3 className="settings-panel__title">Tema Tampilan</h3>
+                  <p className="settings-panel__subtitle">Pilih mode warna visual aplikasi</p>
+                </div>
               </div>
             </div>
-            <div className="settings-field">
-              <label>Mata Uang Utama</label>
-              <input
-                type="text"
-                className="settings-input"
-                value="Rupiah (IDR - Rp)"
-                disabled
-              />
+
+            <div className="settings-panel__body">
+              <div className="theme-switcher-grid">
+                <button
+                  type="button"
+                  className={`theme-card-btn ${theme === 'light' ? 'theme-card-btn--active' : ''}`}
+                  onClick={() => setTheme('light')}
+                >
+                  <div className="theme-card-preview theme-preview--light">
+                    <div className="theme-preview-dot" />
+                    <div className="theme-preview-line" />
+                  </div>
+                  <div className="theme-card-label">
+                    <span className="material-symbols-outlined">light_mode</span>
+                    <span>Mode Terang</span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  className={`theme-card-btn ${theme === 'dark' ? 'theme-card-btn--active' : ''}`}
+                  onClick={() => setTheme('dark')}
+                >
+                  <div className="theme-card-preview theme-preview--dark">
+                    <div className="theme-preview-dot" />
+                    <div className="theme-preview-line" />
+                  </div>
+                  <div className="theme-card-label">
+                    <span className="material-symbols-outlined">dark_mode</span>
+                    <span>Mode Gelap</span>
+                  </div>
+                </button>
+              </div>
             </div>
-          </form>
+          </div>
         </div>
 
-        {/* Wallets & Accounts Management Section */}
-        <div className="card-soft settings-card">
-          <div className="settings-card__header settings-card__header--between">
-            <div className="settings-card__header-left">
-              <span className="material-symbols-outlined settings-icon">account_balance_wallet</span>
+        {/* PWA Mobile App Card */}
+        <div className="settings-panel pwa-hero-panel">
+          <div className="pwa-hero-content">
+            <img src="/apple-touch-icon.png" alt="Tanciku Logo" className="pwa-hero-logo" />
+            <div className="pwa-hero-text">
+              <div className="pwa-badge">
+                <span className="material-symbols-outlined">install_mobile</span>
+                <span>Web App Layar Utama</span>
+              </div>
+              <h3 className="pwa-hero-title">Pasang Tanciku di Layar Utama HP</h3>
+              <p className="pwa-hero-desc">
+                Buka instan tanpa address bar, offline-ready, dan hemat memori di Android & iPhone.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="pwa-hero-action-btn"
+              onClick={() => setInstallModalOpen(true)}
+            >
+              <span className="material-symbols-outlined">add_to_home_screen</span>
+              <span>Panduan Pasang</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Full-Width Wallets Hub */}
+        <div className="settings-panel">
+          <div className="settings-panel__header settings-panel__header--spread">
+            <div className="settings-panel__title-group">
+              <div className="settings-panel__icon">
+                <span className="material-symbols-outlined">account_balance_wallet</span>
+              </div>
               <div>
-                <h3 className="settings-title">Kelola Dompet & Rekening</h3>
-                <p className="settings-desc">Tambah, edit nama/warna/saldo awal, atau hapus dompet Anda</p>
+                <h3 className="settings-panel__title">Kelola Dompet & Rekening</h3>
+                <p className="settings-panel__subtitle">Daftar akun, saldo awal, dan saldo berjalan</p>
               </div>
             </div>
+
             <Button
               variant="primary"
               size="sm"
               onClick={handleOpenAddWallet}
+              className="wallet-add-header-btn"
             >
               <span className="material-symbols-outlined text-sm">add</span>
               <span>Tambah Dompet</span>
             </Button>
           </div>
 
-          <div className="settings-card__body">
+          <div className="settings-panel__body">
             {/* Total Balance Combined Banner */}
-            <div className="wallets-total-summary-banner">
-              <div className="wallets-total-summary-banner__left">
-                <span className="wallets-total-summary-banner__label">Total Saldo Seluruh Dompet (Gabungan)</span>
-                <span className="wallets-total-summary-banner__val">{formatCurrency(totalBalance)}</span>
+            <div className="wallets-total-banner">
+              <div className="wallets-total-banner__details">
+                <span className="wallets-total-banner__caption">Total Saldo Gabungan (Semua Dompet)</span>
+                <span className="wallets-total-banner__amount">{formatCurrency(totalBalance)}</span>
               </div>
-              <span className="wallets-total-summary-banner__badge">
-                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>account_balance_wallet</span>
+              <div className="wallets-total-banner__pill">
+                <span className="material-symbols-outlined">wallet</span>
                 <span>{wallets.length} Dompet Aktif</span>
-              </span>
+              </div>
             </div>
 
-            <div className="wallets-settings-list">
+            {/* Wallets List */}
+            <div className="wallets-stack">
               {wallets.map((w) => {
                 const bal = walletBalances[w.id] || 0;
                 const isInitialSet = Number(w.initialBalance || 0) > 0;
 
                 return (
-                  <div key={w.id} className="wallet-setting-item">
-                    <div className="wallet-setting-item__left">
+                  <div key={w.id} className="wallet-row-item">
+                    <div className="wallet-row-item__main">
                       <div
-                        className="wallet-setting-item__icon"
-                        style={{ backgroundColor: `${w.color}20`, color: w.color }}
+                        className="wallet-row-item__icon-wrapper"
+                        style={{ backgroundColor: `${w.color}18`, color: w.color }}
                       >
                         <span className="material-symbols-outlined">{w.icon}</span>
                       </div>
-                      <div className="wallet-setting-item__info">
-                        <div className="wallet-setting-item__name-row">
-                          <span className="wallet-setting-item__name">{w.label}</span>
-                          {w.isDefault && (
-                            <span className="badge badge--default">Utama</span>
-                          )}
+
+                      <div className="wallet-row-item__meta">
+                        <div className="wallet-row-item__title-line">
+                          <span className="wallet-row-item__name">{w.label}</span>
+                          {w.isDefault && <span className="wallet-chip-default">Utama</span>}
                         </div>
-                        <div className="wallet-setting-item__sub">
+                        <span className="wallet-row-item__subtext">
                           {isInitialSet ? `Saldo Awal: ${formatCurrency(w.initialBalance)}` : 'Saldo Awal: Rp 0'}
-                        </div>
+                        </span>
                       </div>
                     </div>
 
-                    <div className="wallet-setting-item__right">
-                      <div className="wallet-setting-item__bal">
-                        <span className="wallet-setting-item__bal-label">Saldo Saat Ini</span>
-                        <span className={`wallet-setting-item__bal-val ${bal < 0 ? 'text-expense' : ''}`}>
+                    <div className="wallet-row-item__side">
+                      <div className="wallet-row-item__balance-group">
+                        <span className="wallet-balance-sublabel">Saldo Saat Ini</span>
+                        <span className={`wallet-balance-value ${bal < 0 ? 'text-expense' : ''}`}>
                           {formatCurrency(bal)}
                         </span>
                       </div>
 
-                      <div className="wallet-setting-item__actions">
+                      <div className="wallet-row-item__actions">
                         <button
                           type="button"
-                          className="wallet-item-action-btn"
+                          className="wallet-action-icon-btn"
                           onClick={() => handleOpenEditWallet(w)}
-                          title="Edit Dompet"
+                          title={`Edit dompet ${w.label}`}
                           aria-label="Edit Dompet"
                         >
-                          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>edit</span>
+                          <span className="material-symbols-outlined">edit</span>
                         </button>
                         <button
                           type="button"
-                          className="wallet-item-action-btn wallet-item-action-btn--danger"
+                          className="wallet-action-icon-btn wallet-action-icon-btn--delete"
                           onClick={() => setWalletToDelete(w)}
-                          title="Hapus Dompet"
+                          title={`Hapus dompet ${w.label}`}
                           aria-label="Hapus Dompet"
                           disabled={wallets.length <= 1}
                         >
-                          <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>delete</span>
+                          <span className="material-symbols-outlined">delete</span>
                         </button>
                       </div>
                     </div>
@@ -252,194 +367,147 @@ const Settings = () => {
           </div>
         </div>
 
-        {/* PWA & Mobile Home Screen Section */}
-        <div className="card-soft settings-card">
-          <div className="settings-card__header settings-card__header--between">
-            <div className="settings-card__header-left">
-              <span className="material-symbols-outlined settings-icon">install_mobile</span>
-              <div>
-                <h3 className="settings-title">Aplikasi Web di Layar Utama (PWA)</h3>
-                <p className="settings-desc">Pasang Tanciku di layar utama Android atau iPhone Anda</p>
+        {/* Bottom Grid: Data Management & App Info */}
+        <div className="settings-grid-two">
+          {/* Data Management Card */}
+          <div className="settings-panel">
+            <div className="settings-panel__header">
+              <div className="settings-panel__title-group">
+                <div className="settings-panel__icon">
+                  <span className="material-symbols-outlined">database</span>
+                </div>
+                <div>
+                  <h3 className="settings-panel__title">Manajemen & Cadangan Data</h3>
+                  <p className="settings-panel__subtitle">Ekspor, impor, atau pulihkan data JSON</p>
+                </div>
               </div>
             </div>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setInstallModalOpen(true)}
-            >
-              <span className="material-symbols-outlined text-sm">add_to_home_screen</span>
-              <span>Panduan Pasang</span>
-            </Button>
-          </div>
-          <div className="settings-card__body">
-            <div className="pwa-settings-banner" onClick={() => setInstallModalOpen(true)} role="button" tabIndex={0}>
-              <img src="/apple-touch-icon.png" alt="Tanciku App Logo" className="pwa-settings-banner__logo" />
-              <div className="pwa-settings-banner__text">
-                <strong className="pwa-settings-banner__headline">Gunakan Tanciku seperti Aplikasi Native</strong>
-                <p className="pwa-settings-banner__sub">
-                  Akses instan dari Home Screen HP, tanpa address bar browser, hemat memori, dan offline-ready.
-                </p>
+
+            <div className="settings-panel__body">
+              <div className="data-actions-grid">
+                <div className="data-action-card">
+                  <div className="data-action-card__icon-box">
+                    <span className="material-symbols-outlined">download</span>
+                  </div>
+                  <div className="data-action-card__info">
+                    <h4>Ekspor Cadangan</h4>
+                    <p>Unduh seluruh data transaksi & dompet ke file JSON.</p>
+                  </div>
+                  <Button variant="secondary" size="sm" onClick={handleExportJSON} className="data-action-card__btn">
+                    Ekspor JSON
+                  </Button>
+                </div>
+
+                <div className="data-action-card">
+                  <div className="data-action-card__icon-box">
+                    <span className="material-symbols-outlined">upload</span>
+                  </div>
+                  <div className="data-action-card__info">
+                    <h4>Impor Cadangan</h4>
+                    <p>Pulihkan data dari file backup JSON sebelumnya.</p>
+                  </div>
+                  <label className="data-action-card__upload-btn">
+                    <span>Pilih File</span>
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={handleImportJSON}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
               </div>
-              <span className="material-symbols-outlined pwa-settings-banner__arrow">arrow_forward</span>
-            </div>
-          </div>
-        </div>
 
-        {/* Appearance & Theme Section */}
-        <div className="card-soft settings-card">
-          <div className="settings-card__header">
-            <span className="material-symbols-outlined settings-icon">palette</span>
-            <div>
-              <h3 className="settings-title">Tampilan & Tema</h3>
-              <p className="settings-desc">Pilih mode tampilan yang nyaman untuk mata Anda</p>
-            </div>
-          </div>
-          <div className="settings-card__body">
-            <div className="theme-options-grid">
-              <button
-                type="button"
-                className={`theme-option-btn ${theme === 'light' ? 'theme-option-btn--active' : ''}`}
-                onClick={() => setTheme('light')}
-              >
-                <div className="theme-option-preview theme-preview--light">
-                  <div className="preview-bar" />
-                  <div className="preview-card" />
-                </div>
-                <div className="theme-option-label">
-                  <span className="material-symbols-outlined">light_mode</span>
-                  <span>Mode Terang</span>
-                </div>
-              </button>
+              <div className="danger-zone-divider" />
 
-              <button
-                type="button"
-                className={`theme-option-btn ${theme === 'dark' ? 'theme-option-btn--active' : ''}`}
-                onClick={() => setTheme('dark')}
-              >
-                <div className="theme-option-preview theme-preview--dark">
-                  <div className="preview-bar" />
-                  <div className="preview-card" />
-                </div>
-                <div className="theme-option-label">
-                  <span className="material-symbols-outlined">dark_mode</span>
-                  <span>Mode Gelap</span>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Data Management Section */}
-        <div className="card-soft settings-card">
-          <div className="settings-card__header">
-            <span className="material-symbols-outlined settings-icon">database</span>
-            <div>
-              <h3 className="settings-title">Manajemen Data</h3>
-              <p className="settings-desc">Cadangkan atau impor data transaksi & dompet Anda</p>
-            </div>
-          </div>
-          <div className="settings-card__body settings-card__body--grid">
-            <div className="settings-action-box">
-              <h4>Export Backup Data</h4>
-              <p>Unduh semua data transaksi, dompet, dan profil dalam format file JSON.</p>
-              <Button variant="secondary" onClick={handleExportJSON}>
-                <span className="material-symbols-outlined text-sm">download</span>
-                <span>Export JSON</span>
-              </Button>
-            </div>
-
-            <div className="settings-action-box">
-              <h4>Import Backup Data</h4>
-              <p>Pulihkan data transaksi dan dompet dari file backup JSON sebelumnya.</p>
-              <label className="import-file-btn">
-                <span className="material-symbols-outlined text-sm">upload</span>
-                <span>Pilih File JSON</span>
-                <input
-                  type="file"
-                  accept=".json"
-                  onChange={handleImportJSON}
-                  style={{ display: 'none' }}
-                />
-              </label>
-            </div>
-          </div>
-
-          <div className="settings-card__footer">
-            {!showResetConfirm ? (
-              <button
-                type="button"
-                className="reset-btn"
-                onClick={() => setShowResetConfirm(true)}
-              >
-                <span className="material-symbols-outlined text-sm">restart_alt</span>
-                <span>Reset ke Data Sampel</span>
-              </button>
-            ) : (
-              <div className="reset-confirm-box animate-fade-in">
-                <span>Yakin ingin mereset seluruh data ke data sampel awal?</span>
-                <div className="reset-confirm-btns">
+              <div className="danger-zone-wrapper">
+                {!showResetConfirm ? (
                   <button
                     type="button"
-                    className="confirm-btn confirm-btn--cancel"
-                    onClick={() => setShowResetConfirm(false)}
+                    className="danger-reset-trigger-btn"
+                    onClick={() => setShowResetConfirm(true)}
                   >
-                    Batal
+                    <span className="material-symbols-outlined">restart_alt</span>
+                    <span>Reset ke Data Sampel Awal</span>
                   </button>
-                  <button
-                    type="button"
-                    className="confirm-btn confirm-btn--delete"
-                    onClick={handleResetData}
-                  >
-                    Ya, Reset Data
-                  </button>
+                ) : (
+                  <div className="danger-confirm-card animate-fade-in">
+                    <div className="danger-confirm-card__text">
+                      <span className="material-symbols-outlined text-expense">warning</span>
+                      <span>Kembalikan seluruh data transaksi ke sampel awal?</span>
+                    </div>
+                    <div className="danger-confirm-card__btns">
+                      <button
+                        type="button"
+                        className="danger-btn-cancel"
+                        onClick={() => setShowResetConfirm(false)}
+                      >
+                        Batal
+                      </button>
+                      <button
+                        type="button"
+                        className="danger-btn-proceed"
+                        onClick={handleResetData}
+                      >
+                        Ya, Reset
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* App Info Card */}
+          <div className="settings-panel">
+            <div className="settings-panel__header">
+              <div className="settings-panel__title-group">
+                <div className="settings-panel__icon">
+                  <span className="material-symbols-outlined">info</span>
+                </div>
+                <div>
+                  <h3 className="settings-panel__title">Tentang Tanciku</h3>
+                  <p className="settings-panel__subtitle">Informasi sistem dan penyimpanan</p>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
+            </div>
 
-        {/* About Section */}
-        <div className="card-soft settings-card">
-          <div className="settings-card__header">
-            <span className="material-symbols-outlined settings-icon">info</span>
-            <div>
-              <h3 className="settings-title">Tentang Aplikasi</h3>
-              <p className="settings-desc">Tanciku — Catatan Keuangan Simpel, Modern & Efisien</p>
-            </div>
-          </div>
-          <div className="settings-card__body">
-            <div className="settings-info-row">
-              <span>Versi Aplikasi</span>
-              <span className="font-semibold">v1.3.0 (PWA Mobile Edition)</span>
-            </div>
-            <div className="settings-info-row">
-              <span>Tipe Aplikasi</span>
-              <span className="font-semibold">Progressive Web App (PWA)</span>
-            </div>
-            <div className="settings-info-row">
-              <span>Total Dompet Aktif</span>
-              <span className="font-semibold">{wallets.length} Dompet / Akun</span>
-            </div>
-            <div className="settings-info-row">
-              <span>Penyimpanan</span>
-              <span className="font-semibold">Lokal Browser (localStorage Aman & Offline)</span>
-            </div>
-            <div className="settings-info-row">
-              <span>Total Transaksi Tersimpan</span>
-              <span className="font-semibold">{transactions.length} transaksi</span>
+            <div className="settings-panel__body">
+              <div className="app-info-list">
+                <div className="app-info-item">
+                  <span className="app-info-item__label">Versi Aplikasi</span>
+                  <span className="app-info-item__value font-bold">v1.3.0 (PWA Mobile)</span>
+                </div>
+                <div className="app-info-item">
+                  <span className="app-info-item__label">Tipe Aplikasi</span>
+                  <span className="app-info-item__value">Progressive Web App (PWA)</span>
+                </div>
+                <div className="app-info-item">
+                  <span className="app-info-item__label">Total Dompet</span>
+                  <span className="app-info-item__value">{wallets.length} Dompet Aktif</span>
+                </div>
+                <div className="app-info-item">
+                  <span className="app-info-item__label">Total Catatan</span>
+                  <span className="app-info-item__value">{transactions.length} Transaksi</span>
+                </div>
+                <div className="app-info-item">
+                  <span className="app-info-item__label">Penyimpanan</span>
+                  <span className="app-info-item__value">Lokal Browser (100% Offline)</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Wallet Add / Edit Modal */}
+      {/* Wallet Modal */}
       <WalletModal
         isOpen={walletModalOpen}
         onClose={() => setWalletModalOpen(false)}
         wallet={selectedWalletToEdit}
       />
 
-      {/* PWA Install Guide Modal */}
+      {/* PWA Install Modal */}
       <InstallGuideModal
         isOpen={installModalOpen}
         onClose={() => setInstallModalOpen(false)}
@@ -448,25 +516,25 @@ const Settings = () => {
       {/* Delete Wallet Confirmation Dialog */}
       {walletToDelete && (
         <div className="modal-overlay animate-fade-in">
-          <div className="delete-wallet-modal animate-scale-in">
-            <div className="delete-wallet-modal__icon">
+          <div className="delete-wallet-dialog animate-scale-in">
+            <div className="delete-wallet-dialog__icon">
               <span className="material-symbols-outlined">warning</span>
             </div>
-            <h3 className="delete-wallet-modal__title">Hapus Dompet "{walletToDelete.label}"?</h3>
-            <p className="delete-wallet-modal__desc">
+            <h3 className="delete-wallet-dialog__title">Hapus Dompet "{walletToDelete.label}"?</h3>
+            <p className="delete-wallet-dialog__desc">
               Dompet ini akan dihapus. Semua transaksi yang menggunakan dompet ini akan dialihkan secara otomatis ke dompet utama agar riwayat keuangan Anda tetap utuh.
             </p>
-            <div className="delete-wallet-modal__actions">
+            <div className="delete-wallet-dialog__actions">
               <button
                 type="button"
-                className="confirm-btn confirm-btn--cancel"
+                className="delete-dialog-btn delete-dialog-btn--cancel"
                 onClick={() => setWalletToDelete(null)}
               >
                 Batal
               </button>
               <button
                 type="button"
-                className="confirm-btn confirm-btn--delete"
+                className="delete-dialog-btn delete-dialog-btn--danger"
                 onClick={handleConfirmDeleteWallet}
               >
                 Ya, Hapus Dompet

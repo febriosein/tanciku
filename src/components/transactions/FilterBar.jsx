@@ -31,13 +31,14 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
         <input
           type="text"
           className="filter-card__input"
-          placeholder="Cari catatan, kategori..."
+          placeholder="Cari catatan, kategori transaksi..."
           value={filter.search}
           onChange={(e) => setFilter({ search: e.target.value })}
           id="input-search"
         />
         {filter.search && (
           <button
+            type="button"
             className="filter-card__clear-search"
             onClick={() => setFilter({ search: '' })}
             aria-label="Hapus pencarian"
@@ -52,44 +53,53 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
       {/* Filter Selects Row */}
       <div className="filter-card__selects">
         {/* Time Mode Select */}
-        <select
-          className="filter-card__select"
-          value={filter.mode || 'month'}
-          onChange={handleModeChange}
-          id="select-filter-mode"
-        >
-          <option value="month">Pilih Bulan</option>
-          <option value="7days">7 Hari Terakhir</option>
-          <option value="30days">30 Hari Terakhir</option>
-          <option value="year">Tahun Ini</option>
-          <option value="custom">Rentang Kustom</option>
-          <option value="all">Semua Waktu</option>
-        </select>
+        <div className="filter-select-wrapper">
+          <select
+            className="filter-card__select"
+            value={filter.mode || 'month'}
+            onChange={handleModeChange}
+            id="select-filter-mode"
+            title="Filter Waktu"
+          >
+            <option value="month">Pilih Bulan</option>
+            <option value="7days">7 Hari Terakhir</option>
+            <option value="30days">30 Hari Terakhir</option>
+            <option value="year">Tahun Ini</option>
+            <option value="custom">Rentang Kustom</option>
+            <option value="all">Semua Waktu</option>
+          </select>
+        </div>
 
         {/* If 'month' mode, show Month & Year dropdowns */}
         {(filter.mode === 'month' || !filter.mode) && (
           <>
-            <select
-              className="filter-card__select"
-              value={filter.month}
-              onChange={(e) => setFilter({ month: Number(e.target.value) })}
-              id="select-month"
-            >
-              {MONTHS.map((m, i) => (
-                <option key={i} value={i}>{m}</option>
-              ))}
-            </select>
+            <div className="filter-select-wrapper">
+              <select
+                className="filter-card__select"
+                value={filter.month}
+                onChange={(e) => setFilter({ month: Number(e.target.value) })}
+                id="select-month"
+                title="Bulan"
+              >
+                {MONTHS.map((m, i) => (
+                  <option key={i} value={i}>{m}</option>
+                ))}
+              </select>
+            </div>
 
-            <select
-              className="filter-card__select"
-              value={filter.year}
-              onChange={(e) => setFilter({ year: Number(e.target.value) })}
-              id="select-year"
-            >
-              {YEARS.map((y) => (
-                <option key={y} value={y}>{y}</option>
-              ))}
-            </select>
+            <div className="filter-select-wrapper">
+              <select
+                className="filter-card__select"
+                value={filter.year}
+                onChange={(e) => setFilter({ year: Number(e.target.value) })}
+                id="select-year"
+                title="Tahun"
+              >
+                {YEARS.map((y) => (
+                  <option key={y} value={y}>{y}</option>
+                ))}
+              </select>
+            </div>
           </>
         )}
 
@@ -119,45 +129,54 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
 
         {/* Type Filter */}
         {showTypeFilter && (
-          <select
-            className="filter-card__select"
-            value={filter.type}
-            onChange={(e) => setFilter({ type: e.target.value })}
-            id="select-type"
-          >
-            <option value="all">Semua Jenis</option>
-            <option value="income">Pemasukan</option>
-            <option value="expense">Pengeluaran</option>
-          </select>
+          <div className="filter-select-wrapper">
+            <select
+              className="filter-card__select"
+              value={filter.type}
+              onChange={(e) => setFilter({ type: e.target.value })}
+              id="select-type"
+              title="Jenis Transaksi"
+            >
+              <option value="all">Semua Jenis</option>
+              <option value="income">Pemasukan</option>
+              <option value="expense">Pengeluaran</option>
+            </select>
+          </div>
         )}
 
         {/* Wallet Filter */}
         {showWalletFilter && (
-          <select
-            className="filter-card__select"
-            value={filter.wallet || 'all'}
-            onChange={(e) => setFilter({ wallet: e.target.value })}
-            id="select-wallet"
-          >
-            <option value="all">Semua Dompet</option>
-            {wallets.map((w) => (
-              <option key={w.id} value={w.id}>{w.label}</option>
-            ))}
-          </select>
+          <div className="filter-select-wrapper">
+            <select
+              className="filter-card__select"
+              value={filter.wallet || 'all'}
+              onChange={(e) => setFilter({ wallet: e.target.value })}
+              id="select-wallet"
+              title="Pilih Dompet"
+            >
+              <option value="all">Semua Dompet</option>
+              {wallets.map((w) => (
+                <option key={w.id} value={w.id}>{w.label}</option>
+              ))}
+            </select>
+          </div>
         )}
 
         {/* Category Filter */}
-        <select
-          className="filter-card__select"
-          value={filter.category}
-          onChange={(e) => setFilter({ category: e.target.value })}
-          id="select-category"
-        >
-          <option value="all">Semua Kategori</option>
-          {ALL_CATEGORIES.map((c) => (
-            <option key={c.id} value={c.id}>{c.label}</option>
-          ))}
-        </select>
+        <div className="filter-select-wrapper">
+          <select
+            className="filter-card__select"
+            value={filter.category}
+            onChange={(e) => setFilter({ category: e.target.value })}
+            id="select-category"
+            title="Kategori"
+          >
+            <option value="all">Semua Kategori</option>
+            {ALL_CATEGORIES.map((c) => (
+              <option key={c.id} value={c.id}>{c.label}</option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -21,6 +21,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 const Statistics = () => {
   const { transactions } = useTransactions();
   const { isDark } = useTheme();
+  const [activeBreakdownTab, setActiveBreakdownTab] = useState('expense');
 
   // --- Last 6 months bar chart ---
   const now = new Date();
@@ -48,7 +49,7 @@ const Statistics = () => {
       {
         label: 'Pemasukan',
         data: incomeData,
-        backgroundColor: 'rgba(16,185,129,0.75)',
+        backgroundColor: 'rgba(16,185,129,0.85)',
         borderColor: '#10b981',
         borderWidth: 1.5,
         borderRadius: 6,
@@ -56,7 +57,7 @@ const Statistics = () => {
       {
         label: 'Pengeluaran',
         data: expenseData,
-        backgroundColor: 'rgba(239,68,68,0.75)',
+        backgroundColor: 'rgba(239,68,68,0.85)',
         borderColor: '#ef4444',
         borderWidth: 1.5,
         borderRadius: 6,
@@ -74,7 +75,7 @@ const Statistics = () => {
         align: 'end',
         labels: {
           color: isDark ? '#f3effc' : '#464555',
-          font: { family: 'Plus Jakarta Sans', size: 12, weight: '600' },
+          font: { family: 'Plus Jakarta Sans', size: 12, weight: '700' },
           usePointStyle: true,
           pointStyle: 'circle',
           pointStyleWidth: 8,
@@ -88,22 +89,22 @@ const Statistics = () => {
         borderWidth: 1,
         titleColor: '#fff',
         bodyColor: '#94A3B8',
-        padding: 10,
+        padding: 12,
         cornerRadius: 8,
         callbacks: {
-          label: (ctx) => ` ${ctx.dataset.label}: ${formatCompact(ctx.raw)}`,
+          label: (ctx) => ` ${ctx.dataset.label}: ${formatCurrency(ctx.raw)}`,
         },
       },
     },
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: isDark ? '#88849e' : '#777587', font: { family: 'Plus Jakarta Sans', size: 11 } },
+        ticks: { color: isDark ? '#88849e' : '#777587', font: { family: 'Plus Jakarta Sans', size: 11, weight: '600' } },
         border: { display: false },
       },
       y: {
         grid: { color: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)' },
-        ticks: { color: isDark ? '#88849e' : '#777587', font: { family: 'Plus Jakarta Sans', size: 10 }, callback: (v) => formatCompact(v) },
+        ticks: { color: isDark ? '#88849e' : '#777587', font: { family: 'Plus Jakarta Sans', size: 10, weight: '600' }, callback: (v) => formatCompact(v) },
         border: { display: false },
       },
     },
@@ -136,104 +137,196 @@ const Statistics = () => {
   // --- Annual summary ---
   const annualIncome = yearIncome.reduce((s, t) => s + t.amount, 0);
   const annualExpense = yearExpenses.reduce((s, t) => s + t.amount, 0);
+  const netSavings = annualIncome - annualExpense;
+  const savingsRate = annualIncome > 0 ? Math.max(0, (netSavings / annualIncome) * 100) : 0;
   const monthsWithData = new Set([...yearIncome, ...yearExpenses].map((t) => new Date(t.date).getMonth())).size || 1;
 
   return (
     <>
-      <Header title="Statistik" subtitle={`Analisis keuangan tahun ${currentYear}`} />
+      <Header title="Statistik & Analisis" subtitle={`Laporan kinerja finansial tahun ${currentYear}`} />
 
-      <div className="statistics-page">
-        {/* Annual Overview */}
-        <div className="stats-overview stagger-children">
-          <div className="glass-card stats-overview__card">
-            <p className="stats-label">Total Pemasukan {currentYear}</p>
-            <p className="stats-value income">{formatCurrency(annualIncome)}</p>
-            <p className="stats-sub">Rata-rata {formatCompact(annualIncome / monthsWithData)}/bln</p>
+      <div className="statistics-container">
+        {/* Annual Overview Bento Cards */}
+        <div className="stats-bento-grid">
+          {/* Income Overview */}
+          <div className="stats-hero-card">
+            <div className="stats-hero-card__header">
+              <div className="stats-hero-icon-box icon-box--income">
+                <span className="material-symbols-outlined">trending_up</span>
+              </div>
+              <span className="stats-hero-label">Total Pemasukan {currentYear}</span>
+            </div>
+            <div className="stats-hero-value text-income">{formatCurrency(annualIncome)}</div>
+            <div className="stats-hero-footer">
+              <span>Rata-rata: <strong>{formatCompact(annualIncome / monthsWithData)}</strong> / bln</span>
+            </div>
           </div>
-          <div className="glass-card stats-overview__card">
-            <p className="stats-label">Total Pengeluaran {currentYear}</p>
-            <p className="stats-value expense">{formatCurrency(annualExpense)}</p>
-            <p className="stats-sub">Rata-rata {formatCompact(annualExpense / monthsWithData)}/bln</p>
+
+          {/* Expense Overview */}
+          <div className="stats-hero-card">
+            <div className="stats-hero-card__header">
+              <div className="stats-hero-icon-box icon-box--expense">
+                <span className="material-symbols-outlined">trending_down</span>
+              </div>
+              <span className="stats-hero-label">Total Pengeluaran {currentYear}</span>
+            </div>
+            <div className="stats-hero-value text-expense">{formatCurrency(annualExpense)}</div>
+            <div className="stats-hero-footer">
+              <span>Rata-rata: <strong>{formatCompact(annualExpense / monthsWithData)}</strong> / bln</span>
+            </div>
           </div>
-          <div className="glass-card stats-overview__card">
-            <p className="stats-label">Tabungan {currentYear}</p>
-            <p className={`stats-value ${annualIncome - annualExpense >= 0 ? 'income' : 'expense'}`}>
-              {formatCurrency(annualIncome - annualExpense)}
-            </p>
-            <p className="stats-sub">
-              {totalIncome > 0 ? `${((1 - totalExpense / totalIncome) * 100).toFixed(0)}% dari pemasukan` : '-'}
-            </p>
+
+          {/* Savings Overview */}
+          <div className="stats-hero-card">
+            <div className="stats-hero-card__header">
+              <div className="stats-hero-icon-box icon-box--savings">
+                <span className="material-symbols-outlined">savings</span>
+              </div>
+              <span className="stats-hero-label">Tabungan Bersih {currentYear}</span>
+            </div>
+            <div className={`stats-hero-value ${netSavings >= 0 ? 'text-income' : 'text-expense'}`}>
+              {formatCurrency(netSavings)}
+            </div>
+            <div className="stats-hero-footer">
+              <span className="savings-rate-pill">
+                <span className="material-symbols-outlined text-xs">verified</span>
+                <span>Tingkat Tabungan: <strong>{savingsRate.toFixed(0)}%</strong></span>
+              </span>
+            </div>
           </div>
         </div>
 
-        {/* Bar Chart */}
-        <div className="glass-card chart-card">
-          <h2 className="chart-card__title">Perbandingan Bulanan</h2>
-          <div style={{ height: '260px' }}>
-            <Bar data={barData} options={barOptions} />
+        {/* Bar Chart Section */}
+        <div className="stats-card">
+          <div className="stats-card__header">
+            <div className="stats-card__title-group">
+              <span className="material-symbols-outlined stats-section-icon">bar_chart</span>
+              <div>
+                <h3 className="stats-card__title">Tren Arus Kas 6 Bulan Terakhir</h3>
+                <p className="stats-card__desc">Perbandingan pemasukan dan pengeluaran per bulan</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="stats-card__body">
+            <div className="stats-chart-wrapper">
+              <Bar data={barData} options={barOptions} />
+            </div>
           </div>
         </div>
 
-        {/* Category Breakdown */}
-        <div className="stats-breakdown">
-          {/* Expense */}
-          <div className="glass-card breakdown-card">
-            <h2 className="chart-card__title">Pengeluaran per Kategori</h2>
-            {sortedExpense.length === 0 ? (
-              <p className="breakdown-empty">Belum ada data</p>
-            ) : (
-              <div className="breakdown-list">
-                {sortedExpense.map(([id, value]) => {
-                  const cat = getCategoryById(id);
-                  const pct = totalExpense > 0 ? (value / totalExpense) * 100 : 0;
-                  return (
-                    <div key={id} className="breakdown-item">
-                      <div className="breakdown-item__header">
-                        <span className="breakdown-item__cat">{cat.icon} {cat.label}</span>
-                        <span className="breakdown-item__amount expense">{formatCurrency(value)}</span>
-                      </div>
-                      <div className="breakdown-bar">
-                        <div
-                          className="breakdown-bar__fill"
-                          style={{ width: `${pct}%`, background: cat.color }}
-                        />
-                      </div>
-                      <span className="breakdown-item__pct">{pct.toFixed(1)}%</span>
-                    </div>
-                  );
-                })}
+        {/* Category Breakdown Section */}
+        <div className="stats-card">
+          <div className="stats-card__header stats-card__header--between">
+            <div className="stats-card__title-group">
+              <span className="material-symbols-outlined stats-section-icon">donut_small</span>
+              <div>
+                <h3 className="stats-card__title">Distribusi Kategori {currentYear}</h3>
+                <p className="stats-card__desc">Rincian pengeluaran dan pemasukan berdasarkan pos anggaran</p>
               </div>
-            )}
+            </div>
+
+            {/* Mobile Tab Toggle */}
+            <div className="breakdown-tab-toggle">
+              <button
+                type="button"
+                className={`breakdown-tab-btn ${activeBreakdownTab === 'expense' ? 'breakdown-tab-btn--active-expense' : ''}`}
+                onClick={() => setActiveBreakdownTab('expense')}
+              >
+                Pengeluaran
+              </button>
+              <button
+                type="button"
+                className={`breakdown-tab-btn ${activeBreakdownTab === 'income' ? 'breakdown-tab-btn--active-income' : ''}`}
+                onClick={() => setActiveBreakdownTab('income')}
+              >
+                Pemasukan
+              </button>
+            </div>
           </div>
 
-          {/* Income */}
-          <div className="glass-card breakdown-card">
-            <h2 className="chart-card__title">Pemasukan per Kategori</h2>
-            {sortedIncome.length === 0 ? (
-              <p className="breakdown-empty">Belum ada data</p>
-            ) : (
-              <div className="breakdown-list">
-                {sortedIncome.map(([id, value]) => {
-                  const cat = getCategoryById(id);
-                  const pct = totalIncome > 0 ? (value / totalIncome) * 100 : 0;
-                  return (
-                    <div key={id} className="breakdown-item">
-                      <div className="breakdown-item__header">
-                        <span className="breakdown-item__cat">{cat.icon} {cat.label}</span>
-                        <span className="breakdown-item__amount income">{formatCurrency(value)}</span>
-                      </div>
-                      <div className="breakdown-bar">
-                        <div
-                          className="breakdown-bar__fill"
-                          style={{ width: `${pct}%`, background: cat.color }}
-                        />
-                      </div>
-                      <span className="breakdown-item__pct">{pct.toFixed(1)}%</span>
-                    </div>
-                  );
-                })}
+          <div className="stats-card__body">
+            <div className="breakdown-grid-dual">
+              {/* Expense Column */}
+              <div className={`breakdown-column ${activeBreakdownTab === 'income' ? 'breakdown-column--hide-mobile' : ''}`}>
+                <div className="breakdown-column__header">
+                  <span className="breakdown-column__dot dot--expense" />
+                  <h4>Pengeluaran ({sortedExpense.length} Kategori)</h4>
+                  <span className="breakdown-column__total text-expense">{formatCurrency(totalExpense)}</span>
+                </div>
+
+                {sortedExpense.length === 0 ? (
+                  <p className="breakdown-empty">Belum ada data pengeluaran di tahun {currentYear}</p>
+                ) : (
+                  <div className="breakdown-items-list">
+                    {sortedExpense.map(([id, value]) => {
+                      const cat = getCategoryById(id);
+                      const pct = totalExpense > 0 ? (value / totalExpense) * 100 : 0;
+                      return (
+                        <div key={id} className="breakdown-row-item">
+                          <div className="breakdown-row-item__top">
+                            <div className="breakdown-row-item__left">
+                              <span className="breakdown-cat-icon">{cat.icon}</span>
+                              <span className="breakdown-cat-label">{cat.label}</span>
+                            </div>
+                            <div className="breakdown-row-item__right">
+                              <span className="breakdown-cat-amount text-expense">{formatCurrency(value)}</span>
+                              <span className="breakdown-cat-pct">({pct.toFixed(1)}%)</span>
+                            </div>
+                          </div>
+                          <div className="breakdown-progress-track">
+                            <div
+                              className="breakdown-progress-fill"
+                              style={{ width: `${pct}%`, backgroundColor: cat.color }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-            )}
+
+              {/* Income Column */}
+              <div className={`breakdown-column ${activeBreakdownTab === 'expense' ? 'breakdown-column--hide-mobile' : ''}`}>
+                <div className="breakdown-column__header">
+                  <span className="breakdown-column__dot dot--income" />
+                  <h4>Pemasukan ({sortedIncome.length} Kategori)</h4>
+                  <span className="breakdown-column__total text-income">{formatCurrency(totalIncome)}</span>
+                </div>
+
+                {sortedIncome.length === 0 ? (
+                  <p className="breakdown-empty">Belum ada data pemasukan di tahun {currentYear}</p>
+                ) : (
+                  <div className="breakdown-items-list">
+                    {sortedIncome.map(([id, value]) => {
+                      const cat = getCategoryById(id);
+                      const pct = totalIncome > 0 ? (value / totalIncome) * 100 : 0;
+                      return (
+                        <div key={id} className="breakdown-row-item">
+                          <div className="breakdown-row-item__top">
+                            <div className="breakdown-row-item__left">
+                              <span className="breakdown-cat-icon">{cat.icon}</span>
+                              <span className="breakdown-cat-label">{cat.label}</span>
+                            </div>
+                            <div className="breakdown-row-item__right">
+                              <span className="breakdown-cat-amount text-income">{formatCurrency(value)}</span>
+                              <span className="breakdown-cat-pct">({pct.toFixed(1)}%)</span>
+                            </div>
+                          </div>
+                          <div className="breakdown-progress-track">
+                            <div
+                              className="breakdown-progress-fill"
+                              style={{ width: `${pct}%`, backgroundColor: cat.color }}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>

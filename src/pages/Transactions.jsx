@@ -40,66 +40,92 @@ const Transactions = () => {
   return (
     <>
       <Header
-        title="Transaksi"
-        subtitle={`${filterDesc} · ${filteredTransactions.length} transaksi ditemukan`}
+        title="Daftar Transaksi"
+        subtitle={`${filterDesc} · ${filteredTransactions.length} catatan transaksi ditemukan`}
       />
 
-      <div className="transactions-page">
+      <div className="transactions-container">
+        {/* Filter Bar Component */}
         <FilterBar showTypeFilter={true} showWalletFilter={true} />
 
-        {/* Summary & Sorting Row */}
-        <div className="transactions-summary">
-          <div className="transactions-summary__stats">
-            <div className="transactions-summary__item">
-              <span className="transactions-summary__label">Pemasukan</span>
-              <span className="transactions-summary__value income">{formatCurrency(summary.income)}</span>
+        {/* 3-Metric Summary Bento Cards */}
+        <div className="transactions-metrics-grid">
+          <div className="trans-metric-card">
+            <div className="trans-metric-card__header">
+              <span className="trans-metric-card__dot dot--income" />
+              <span className="trans-metric-card__label">Total Pemasukan</span>
             </div>
-            <div className="transactions-summary__divider" />
-            <div className="transactions-summary__item">
-              <span className="transactions-summary__label">Pengeluaran</span>
-              <span className="transactions-summary__value expense">{formatCurrency(summary.expense)}</span>
-            </div>
-            <div className="transactions-summary__divider" />
-            <div className="transactions-summary__item">
-              <span className="transactions-summary__label">Selisih</span>
-              <span className={`transactions-summary__value ${summary.balance >= 0 ? 'income' : 'expense'}`}>
-                {formatCurrency(summary.balance)}
-              </span>
-            </div>
+            <span className="trans-metric-card__value text-income">
+              {formatCurrency(summary.income)}
+            </span>
           </div>
 
-          <div className="transactions-summary__actions">
-            {/* Sorting Dropdown */}
-            <div className="transactions-sort-wrapper">
-              <span className="material-symbols-outlined sort-icon">sort</span>
-              <select
-                className="transactions-sort-select"
-                value={filter.sortBy || 'date-desc'}
-                onChange={handleSortChange}
-                aria-label="Urutkan Transaksi"
-              >
-                <option value="date-desc">Terbaru</option>
-                <option value="date-asc">Terlama</option>
-                <option value="amount-desc">Nominal Terbesar</option>
-                <option value="amount-asc">Nominal Terkecil</option>
-              </select>
+          <div className="trans-metric-card">
+            <div className="trans-metric-card__header">
+              <span className="trans-metric-card__dot dot--expense" />
+              <span className="trans-metric-card__label">Total Pengeluaran</span>
             </div>
+            <span className="trans-metric-card__value text-expense">
+              {formatCurrency(summary.expense)}
+            </span>
+          </div>
 
-            <Button
-              variant="secondary"
-              size="sm"
-              icon={Download}
-              onClick={handleExport}
-              id="btn-export-csv"
-            >
-              Export CSV
-            </Button>
+          <div className="trans-metric-card">
+            <div className="trans-metric-card__header">
+              <span className={`trans-metric-card__dot ${summary.balance >= 0 ? 'dot--income' : 'dot--expense'}`} />
+              <span className="trans-metric-card__label">Selisih Periode</span>
+            </div>
+            <span className={`trans-metric-card__value ${summary.balance >= 0 ? 'text-income' : 'text-expense'}`}>
+              {formatCurrency(summary.balance)}
+            </span>
           </div>
         </div>
 
-        {/* List */}
-        <div className="glass-card transactions-card">
-          <TransactionList />
+        {/* Action Controls & Transaction List Card */}
+        <div className="transactions-main-card">
+          <div className="transactions-main-card__header">
+            <div className="transactions-main-card__title-group">
+              <h3 className="transactions-main-card__title">Riwayat Catatan</h3>
+              <span className="transactions-main-card__badge">
+                {filteredTransactions.length} Transaksi
+              </span>
+            </div>
+
+            <div className="transactions-main-card__actions">
+              {/* Sorting Dropdown */}
+              <div className="trans-sort-pill">
+                <span className="material-symbols-outlined trans-sort-icon">sort</span>
+                <select
+                  className="trans-sort-select"
+                  value={filter.sortBy || 'date-desc'}
+                  onChange={handleSortChange}
+                  aria-label="Urutkan Transaksi"
+                  title="Urutkan Transaksi"
+                >
+                  <option value="date-desc">Terbaru</option>
+                  <option value="date-asc">Terlama</option>
+                  <option value="amount-desc">Nominal Terbesar</option>
+                  <option value="amount-asc">Nominal Terkecil</option>
+                </select>
+              </div>
+
+              {/* Export CSV Button */}
+              <Button
+                variant="secondary"
+                size="sm"
+                icon={Download}
+                onClick={handleExport}
+                id="btn-export-csv"
+                className="trans-export-btn"
+              >
+                <span>Export CSV</span>
+              </Button>
+            </div>
+          </div>
+
+          <div className="transactions-main-card__body">
+            <TransactionList />
+          </div>
         </div>
       </div>
     </>
