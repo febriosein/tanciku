@@ -6,6 +6,7 @@ import { ToastProvider } from './context/ToastContext';
 import MobileTopBar from './components/layout/MobileTopBar';
 import Sidebar from './components/layout/Sidebar';
 import BottomNav from './components/layout/BottomNav';
+import OfflineBanner from './components/ui/OfflineBanner';
 import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
@@ -22,6 +23,7 @@ const App = () => {
         <TransactionProvider>
           <BrowserRouter>
             <div className="flex flex-col md:flex-row min-h-screen">
+              <OfflineBanner />
               <MobileTopBar onOpenSidebar={() => setMobileMenuOpen(true)} />
               
               <Sidebar 
