@@ -14,7 +14,7 @@ import { formatMonthLabel, formatDateShort } from '../utils/formatDate';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { summary, filter, wallets, walletBalances, dispatch } = useTransactions();
+  const { summary, filter, wallets, dispatch } = useTransactions();
   const [walletModalOpen, setWalletModalOpen] = useState(false);
   const [selectedWalletToEdit, setSelectedWalletToEdit] = useState(null);
 
@@ -92,8 +92,8 @@ const Dashboard = () => {
 
           <div className="dashboard__wallets-grid">
             {wallets.map((w) => {
-              const bal = walletBalances[w.id] || 0;
-              const isSelected = filter.wallet === w.id;
+              const bal = w.balance || 0;
+              const isSelected = filter?.wallet === w.id;
               return (
                 <div
                   key={w.id}

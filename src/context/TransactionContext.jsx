@@ -27,6 +27,21 @@ const DEFAULT_PROFILE = {
   currency: 'IDR',
 };
 
+const DEFAULT_FILTER = {
+  mode: 'month',
+  month: new Date().getMonth(),
+  year: new Date().getFullYear(),
+  startDate: daysAgoISO(30),
+  endDate: todayISO(),
+  category: 'all',
+  type: 'all',
+  wallet: 'all',
+  search: '',
+  minAmount: '',
+  maxAmount: '',
+  sortBy: 'date-desc',
+};
+
 // ===== CONTEXT =====
 const TransactionContext = createContext(null);
 
@@ -149,7 +164,7 @@ const transactionReducer = (state, action) => {
       return {
         ...state,
         filter: {
-          ...initialState.filter,
+          ...DEFAULT_FILTER,
           month: new Date().getMonth(),
           year: new Date().getFullYear(),
         },
@@ -168,20 +183,7 @@ const initialState = {
   transactions: [],
   wallets: DEFAULT_WALLETS,
   profile: DEFAULT_PROFILE,
-  filter: {
-    mode: 'month',
-    month: new Date().getMonth(),
-    year: new Date().getFullYear(),
-    startDate: daysAgoISO(30),
-    endDate: todayISO(),
-    category: 'all',
-    type: 'all',
-    wallet: 'all',
-    search: '',
-    minAmount: '',
-    maxAmount: '',
-    sortBy: 'date-desc',
-  },
+  filter: DEFAULT_FILTER,
 };
 
 // ===== PROVIDER =====
@@ -201,11 +203,17 @@ export const TransactionProvider = ({ children }) => {
     DEFAULT_PROFILE
   );
 
+  const [savedFilter, setSavedFilter] = useLocalStorage(
+    'tanciku_filter',
+    DEFAULT_FILTER
+  );
+
   const [state, dispatch] = useReducer(transactionReducer, {
     ...initialState,
     transactions: savedTransactions,
     wallets: savedWallets,
     profile: savedProfile,
+    filter: { ...DEFAULT_FILTER, ...(savedFilter || {}) },
   });
 
   // Sync to localStorage
@@ -220,6 +228,10 @@ export const TransactionProvider = ({ children }) => {
   useEffect(() => {
     setSavedProfile(state.profile);
   }, [state.profile, setSavedProfile]);
+
+  useEffect(() => {
+    setSavedFilter(state.filter);
+  }, [state.filter, setSavedFilter]);
 
   // Derived: filtered transactions based on active filter mode
   const filteredTransactions = state.transactions.filter((t) => {
@@ -238,83 +250,104 @@ export const TransactionProvider = ({ children }) => {
     } else if (state.filter.mode === 'year') {
       matchTime = date.getFullYear() === state.filter.year;
     } else if (state.filter.mode === 'custom') {
-      const start = state.filter.startDate || '1970-01-01';
-      const end = state.filter.endDate || '2099-12-31';
-      matchTime = dateISO >= start && dateISO <= end;
+      matchTime = dateISO >= state.filter.startDate && dateISO <= state.filter.endDate;
     } else if (state.filter.mode === 'all') {
       matchTime = true;
     }
 
-    const defaultWalletId = state.wallets[0]?.id || 'cash';
     const matchCategory =
       state.filter.category === 'all' || t.category === state.filter.category;
+
     const matchType =
       state.filter.type === 'all' || t.type === state.filter.type;
+
     const matchWallet =
-      state.filter.wallet === 'all' || (t.wallet || defaultWalletId) === state.filter.wallet;
+      !state.filter.wallet || state.filter.wallet === 'all' || (t.wallet || 'cash') === state.filter.wallet;
+
     const matchSearch =
       !state.filter.search ||
-      t.note?.toLowerCase().includes(state.filter.search.toLowerCase()) ||
+      t.note.toLowerCase().includes(state.filter.search.toLowerCase()) ||
       t.category.toLowerCase().includes(state.filter.search.toLowerCase());
 
-    const min = Number(state.filter.minAmount);
-    const matchMin = isNaN(min) || min <= 0 || t.amount >= min;
+    const matchMinAmount =
+      !state.filter.minAmount || t.amount >= Number(state.filter.minAmount);
 
-    const max = Number(state.filter.maxAmount);
-    const matchMax = isNaN(max) || max <= 0 || t.amount <= max;
+    const matchMaxAmount =
+      !state.filter.maxAmount || t.amount <= Number(state.filter.maxAmount);
 
-    return matchTime && matchCategory && matchType && matchWallet && matchSearch && matchMin && matchMax;
+    return matchTime && matchCategory && matchType && matchWallet && matchSearch && matchMinAmount && matchMaxAmount;
   });
 
   // Derived: sorted transactions
-  const sortedFilteredTransactions = [...filteredTransactions].sort((a, b) => {
+  const sortedTransactions = [...filteredTransactions].sort((a, b) => {
     const sortBy = state.filter.sortBy || 'date-desc';
     if (sortBy === 'date-asc') {
       return new Date(a.date) - new Date(b.date);
-    }
-    if (sortBy === 'amount-desc') {
+    } else if (sortBy === 'amount-desc') {
       return b.amount - a.amount;
-    }
-    if (sortBy === 'amount-asc') {
+    } else if (sortBy === 'amount-asc') {
       return a.amount - b.amount;
     }
+    // Default: date-desc
     return new Date(b.date) - new Date(a.date);
   });
 
-  // Derived: summary for filtered transactions
-  const summary = filteredTransactions.reduce(
-    (acc, t) => {
-      if (t.type === 'income') acc.income += t.amount;
-      else acc.expense += t.amount;
-      acc.balance = acc.income - acc.expense;
-      return acc;
-    },
-    { income: 0, expense: 0, balance: 0 }
+  // Derived: summary calculations based on filtered transactions
+  const income = filteredTransactions
+    .filter((t) => t.type === 'income')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const expense = filteredTransactions
+    .filter((t) => t.type === 'expense')
+    .reduce((sum, t) => sum + t.amount, 0);
+
+  const balance = income - expense;
+
+  // Derived: wallet balances calculated dynamically from all transactions
+  const walletsWithBalance = state.wallets.map((wallet) => {
+    const walletTransactions = state.transactions.filter(
+      (t) => (t.wallet || 'cash') === wallet.id
+    );
+    const wIncome = walletTransactions
+      .filter((t) => t.type === 'income')
+      .reduce((sum, t) => sum + t.amount, 0);
+    const wExpense = walletTransactions
+      .filter((t) => t.type === 'expense')
+      .reduce((sum, t) => sum + t.amount, 0);
+    const currentBalance = (wallet.initialBalance || 0) + wIncome - wExpense;
+
+    return {
+      ...wallet,
+      balance: currentBalance,
+      income: wIncome,
+      expense: wExpense,
+      transactionCount: walletTransactions.length,
+    };
+  });
+
+  // Derived: walletBalances dictionary
+  const walletBalances = {};
+  walletsWithBalance.forEach((w) => {
+    walletBalances[w.id] = w.balance;
+  });
+
+  // Total balance combining all wallets
+  const totalCombinedBalance = walletsWithBalance.reduce(
+    (sum, w) => sum + (w.balance || 0),
+    0
   );
-
-  // Derived: balance per wallet (Initial Balance + Inflows - Outflows)
-  const walletBalances = state.wallets.reduce((acc, w) => {
-    const initial = Number(w.initialBalance || 0);
-    const walletTransactions = state.transactions.filter((t) => (t.wallet || 'cash') === w.id);
-    const totalIn = walletTransactions.filter((t) => t.type === 'income').reduce((s, t) => s + t.amount, 0);
-    const totalOut = walletTransactions.filter((t) => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
-    acc[w.id] = initial + totalIn - totalOut;
-    return acc;
-  }, {});
-
-  // Derived: all-time total balance across all wallets
-  const totalBalance = Object.values(walletBalances).reduce((sum, bal) => sum + bal, 0);
 
   const value = {
     transactions: state.transactions,
-    wallets: state.wallets,
-    filteredTransactions: sortedFilteredTransactions,
+    filteredTransactions: sortedTransactions,
     rawFilteredTransactions: filteredTransactions,
-    filter: state.filter,
-    profile: state.profile,
-    summary,
-    totalBalance,
+    wallets: walletsWithBalance,
     walletBalances,
+    totalBalance: totalCombinedBalance,
+    totalCombinedBalance,
+    profile: state.profile,
+    filter: state.filter,
+    summary: { income, expense, balance },
     dispatch,
   };
 
@@ -325,11 +358,10 @@ export const TransactionProvider = ({ children }) => {
   );
 };
 
-// ===== HOOK =====
 export const useTransactions = () => {
   const context = useContext(TransactionContext);
   if (!context) {
-    throw new Error('useTransactions must be used within TransactionProvider');
+    throw new Error('useTransactions must be used within a TransactionProvider');
   }
   return context;
 };

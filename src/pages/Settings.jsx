@@ -316,7 +316,7 @@ const Settings = () => {
             {/* Wallets List */}
             <div className="wallets-stack">
               {wallets.map((w) => {
-                const bal = walletBalances[w.id] || 0;
+                const bal = w.balance ?? walletBalances?.[w.id] ?? 0;
                 const isInitialSet = Number(w.initialBalance || 0) > 0;
 
                 return (
