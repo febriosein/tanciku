@@ -57,13 +57,18 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
   }
 
   return (
-    <div className="filter-card">
+    <section className="filter-bar-suite" data-purpose="filter-bar">
       {/* Search Input */}
-      <div className="filter-card__search">
-        <span className="material-symbols-outlined filter-card__search-icon">search</span>
+      <div className="filter-bar-suite__search-box">
+        <span className="filter-bar-suite__search-icon">
+          <svg fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
         <input
           type="text"
-          className="filter-card__input"
+          className="filter-bar-suite__search-input"
           placeholder="Cari catatan, kategori transaksi..."
           value={filter.search}
           onChange={(e) => setFilter({ search: e.target.value })}
@@ -72,7 +77,7 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
         {filter.search && (
           <button
             type="button"
-            className="filter-card__clear-search"
+            className="filter-bar-suite__clear-btn"
             onClick={() => setFilter({ search: '' })}
             aria-label="Hapus pencarian"
           >
@@ -81,76 +86,68 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
         )}
       </div>
 
-      <div className="filter-card__divider" />
-
       {/* Filter Selects Row */}
-      <div className="filter-card__selects">
+      <div className="filter-bar-suite__selects-group">
         {/* Time Mode Select */}
-        <div className="filter-select-wrapper">
-          <select
-            className="filter-card__select"
-            value={filter.mode || 'month'}
-            onChange={handleModeChange}
-            id="select-filter-mode"
-            title="Filter Waktu"
-          >
-            <option value="month">Pilih Bulan</option>
-            <option value="7days">7 Hari Terakhir</option>
-            <option value="30days">30 Hari Terakhir</option>
-            <option value="year">Tahun Ini</option>
-            <option value="custom">Rentang Kustom</option>
-            <option value="all">Semua Waktu</option>
-          </select>
-        </div>
+        <select
+          className="filter-custom-select"
+          value={filter.mode || 'month'}
+          onChange={handleModeChange}
+          id="select-filter-mode"
+          aria-label="Pilih Mode Waktu"
+        >
+          <option value="month">Pilih Bulan</option>
+          <option value="7days">7 Hari Terakhir</option>
+          <option value="30days">30 Hari Terakhir</option>
+          <option value="year">Tahun Ini</option>
+          <option value="custom">Rentang Kustom</option>
+          <option value="all">Semua Waktu</option>
+        </select>
 
         {/* If 'month' mode, show Month & Year dropdowns */}
         {(filter.mode === 'month' || !filter.mode) && (
           <>
-            <div className="filter-select-wrapper">
-              <select
-                className="filter-card__select"
-                value={filter.month}
-                onChange={(e) => setFilter({ month: Number(e.target.value) })}
-                id="select-month"
-                title="Bulan"
-              >
-                {MONTHS.map((m, i) => (
-                  <option key={i} value={i}>{m}</option>
-                ))}
-              </select>
-            </div>
+            <select
+              className="filter-custom-select font-semibold"
+              value={filter.month}
+              onChange={(e) => setFilter({ month: Number(e.target.value) })}
+              id="select-month"
+              aria-label="Bulan"
+            >
+              {MONTHS.map((m, i) => (
+                <option key={i} value={i}>{m}</option>
+              ))}
+            </select>
 
-            <div className="filter-select-wrapper">
-              <select
-                className="filter-card__select"
-                value={filter.year}
-                onChange={(e) => setFilter({ year: Number(e.target.value) })}
-                id="select-year"
-                title="Tahun"
-              >
-                {YEARS.map((y) => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
-            </div>
+            <select
+              className="filter-custom-select font-semibold"
+              value={filter.year}
+              onChange={(e) => setFilter({ year: Number(e.target.value) })}
+              id="select-year"
+              aria-label="Tahun"
+            >
+              {YEARS.map((y) => (
+                <option key={y} value={y}>{y}</option>
+              ))}
+            </select>
           </>
         )}
 
         {/* If 'custom' mode, show start and end date pickers */}
         {filter.mode === 'custom' && (
-          <div className="filter-card__custom-dates">
+          <div className="filter-bar-suite__dates-pill">
             <input
               type="date"
-              className="filter-card__date-input"
+              className="filter-bar-suite__date-field"
               value={filter.startDate || ''}
               onChange={(e) => setFilter({ startDate: e.target.value })}
               max={filter.endDate || todayISO()}
               title="Tanggal Mulai"
             />
-            <span className="filter-card__date-sep">-</span>
+            <span className="filter-bar-suite__date-dash">-</span>
             <input
               type="date"
-              className="filter-card__date-input"
+              className="filter-bar-suite__date-field"
               value={filter.endDate || ''}
               onChange={(e) => setFilter({ endDate: e.target.value })}
               min={filter.startDate || ''}
@@ -160,111 +157,100 @@ const FilterBar = ({ showTypeFilter = true, showWalletFilter = true }) => {
           </div>
         )}
 
-        {/* Type Filter */}
-        {showTypeFilter && (
-          <div className="filter-select-wrapper">
-            <select
-              className="filter-card__select"
-              value={filter.type}
-              onChange={(e) => setFilter({ type: e.target.value })}
-              id="select-type"
-              title="Jenis Transaksi"
-            >
-              <option value="all">Semua Jenis</option>
-              <option value="income">Pemasukan</option>
-              <option value="expense">Pengeluaran</option>
-            </select>
-          </div>
-        )}
-
         {/* Wallet Filter */}
         {showWalletFilter && (
-          <div className="filter-select-wrapper">
-            <select
-              className="filter-card__select"
-              value={filter.wallet || 'all'}
-              onChange={(e) => setFilter({ wallet: e.target.value })}
-              id="select-wallet"
-              title="Pilih Dompet"
-            >
-              <option value="all">Semua Dompet</option>
-              {wallets.map((w) => (
-                <option key={w.id} value={w.id}>{w.label}</option>
-              ))}
-            </select>
-          </div>
+          <select
+            className="filter-custom-select"
+            value={filter.wallet || 'all'}
+            onChange={(e) => setFilter({ wallet: e.target.value })}
+            id="select-wallet"
+            aria-label="Dompet"
+          >
+            <option value="all">Semua Dompet</option>
+            {wallets.map((w) => (
+              <option key={w.id} value={w.id}>{w.label}</option>
+            ))}
+          </select>
         )}
 
         {/* Category Filter */}
-        <div className="filter-select-wrapper">
-          <select
-            className="filter-card__select"
-            value={filter.category}
-            onChange={(e) => setFilter({ category: e.target.value })}
-            id="select-category"
-            title="Kategori"
-          >
-            <option value="all">Semua Kategori</option>
-            {ALL_CATEGORIES.map((c) => (
-              <option key={c.id} value={c.id}>{c.label}</option>
-            ))}
-          </select>
-        </div>
+        <select
+          className="filter-custom-select"
+          value={filter.category}
+          onChange={(e) => setFilter({ category: e.target.value })}
+          id="select-category"
+          aria-label="Kategori"
+        >
+          <option value="all">Semua Kategori</option>
+          {ALL_CATEGORIES.map((c) => (
+            <option key={c.id} value={c.id}>{c.label}</option>
+          ))}
+        </select>
 
-        {/* Nominal Range Preset Filter */}
-        <div className="filter-select-wrapper">
+        {/* Type Filter */}
+        {showTypeFilter && (
           <select
-            className="filter-card__select"
-            value={activeAmountPreset}
-            onChange={handleAmountPresetChange}
-            id="select-amount-range"
-            title="Filter Nominal"
+            className="filter-custom-select"
+            value={filter.type}
+            onChange={(e) => setFilter({ type: e.target.value })}
+            id="select-type"
+            aria-label="Jenis"
           >
-            <option value="all">Semua Nominal</option>
-            <option value="under50k">&lt; Rp 50.000 (Kecil)</option>
-            <option value="50k-500k">Rp 50rb - 500rb</option>
-            <option value="above500k">&gt; Rp 500.000 (Besar)</option>
-            <option value="custom">Nominal Kustom...</option>
+            <option value="all">Semua Jenis</option>
+            <option value="income">Pemasukan</option>
+            <option value="expense">Pengeluaran</option>
           </select>
-        </div>
+        )}
+
+        {/* Nominal Range Filter */}
+        <select
+          className="filter-custom-select"
+          value={activeAmountPreset}
+          onChange={handleAmountPresetChange}
+          id="select-amount-range"
+          aria-label="Nominal"
+        >
+          <option value="all">Semua Nominal</option>
+          <option value="under50k">&lt; Rp 50.000</option>
+          <option value="50k-500k">Rp 50rb - 500rb</option>
+          <option value="above500k">&gt; Rp 500.000</option>
+          <option value="custom">Nominal Kustom...</option>
+        </select>
 
         {/* Custom Min & Max Inputs */}
         {(showCustomAmount || (activeAmountPreset === 'custom' && (filter.minAmount || filter.maxAmount))) && (
-          <div className="filter-card__custom-amount">
+          <div className="filter-bar-suite__custom-amount">
             <input
               type="number"
               inputMode="numeric"
-              className="filter-card__amount-input"
-              placeholder="Min (Rp)"
+              className="filter-bar-suite__num-input"
+              placeholder="Min"
               value={filter.minAmount || ''}
               onChange={(e) => setFilter({ minAmount: e.target.value })}
-              title="Nominal Minimum"
             />
-            <span className="filter-card__date-sep">-</span>
+            <span className="filter-bar-suite__date-dash">-</span>
             <input
               type="number"
               inputMode="numeric"
-              className="filter-card__amount-input"
-              placeholder="Max (Rp)"
+              className="filter-bar-suite__num-input"
+              placeholder="Max"
               value={filter.maxAmount || ''}
               onChange={(e) => setFilter({ maxAmount: e.target.value })}
-              title="Nominal Maksimum"
             />
             <button
               type="button"
-              className="filter-card__clear-amount"
+              className="filter-bar-suite__close-amount"
               onClick={() => {
                 setShowCustomAmount(false);
                 setFilter({ minAmount: '', maxAmount: '' });
               }}
-              title="Reset Filter Nominal"
             >
               <span className="material-symbols-outlined">close</span>
             </button>
           </div>
         )}
       </div>
-    </div>
+    </section>
   );
 };
 

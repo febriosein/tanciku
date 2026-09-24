@@ -1,7 +1,7 @@
 .statistics-container {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -10,7 +10,7 @@
 .stats-bento-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 16px;
   width: 100%;
 }
 
@@ -21,32 +21,32 @@
 }
 
 .stats-hero-card {
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--card-shadow);
-  padding: 18px 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 12px 0 rgba(15, 23, 42, 0.03);
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  transition: all var(--transition-fast);
+  gap: 12px;
+  transition: all 0.2s ease;
 }
 
 .stats-hero-card:hover {
-  border-color: var(--color-primary);
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px -2px rgba(16, 185, 129, 0.12), 0 2px 8px -1px rgba(0, 0, 0, 0.04);
 }
 
 .stats-hero-card__header {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .stats-hero-icon-box {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,18 +58,18 @@
 }
 
 .icon-box--income {
-  background: rgba(16, 185, 129, 0.15);
-  color: #10b981;
+  background: #ecfdf5;
+  color: #059669;
 }
 
 .icon-box--expense {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--color-expense);
+  background: #fff1f2;
+  color: #f43f5e;
 }
 
 .icon-box--savings {
-  background: rgba(99, 102, 241, 0.15);
-  color: var(--color-primary);
+  background: rgba(16, 185, 129, 0.12);
+  color: #059669;
 }
 
 .stats-hero-label {
@@ -91,9 +91,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 8px;
-  border-top: 1px solid var(--color-surface-container-high);
-  font-size: 11px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+  font-size: 12px;
   color: var(--color-on-surface-variant);
 }
 
@@ -105,19 +105,20 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 8px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-container-low);
-  color: var(--color-primary);
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background: #ecfdf5;
+  color: #047857;
   font-weight: 700;
+  border: 1px solid rgba(16, 185, 129, 0.2);
 }
 
 /* ===== Generic Stats Card ===== */
 .stats-card {
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--card-shadow);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 12px 0 rgba(15, 23, 42, 0.03);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -128,9 +129,9 @@
 .stats-card__header {
   display: flex;
   align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--color-surface-container-high);
-  background: var(--color-surface-container-low);
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
   gap: 12px;
 }
 
@@ -149,12 +150,12 @@
 }
 
 .stats-section-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  color: var(--color-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: #ecfdf5;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #059669;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -170,13 +171,13 @@
 }
 
 .stats-card__desc {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--color-on-surface-variant);
   margin-top: 2px;
 }
 
 .stats-card__body {
-  padding: 20px;
+  padding: 22px;
 }
 
 /* Chart Wrapper */
@@ -190,10 +191,9 @@
 .breakdown-tab-toggle {
   display: flex;
   align-items: center;
-  background: var(--color-surface-container-lowest);
+  background: var(--color-surface-container);
   padding: 3px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--color-surface-container-high);
+  border-radius: 8px;
 }
 
 @media (min-width: 900px) {
@@ -204,7 +204,7 @@
 
 .breakdown-tab-btn {
   padding: 5px 12px;
-  border-radius: var(--radius-full);
+  border-radius: 6px;
   border: none;
   background: transparent;
   color: var(--color-on-surface-variant);
@@ -212,11 +212,11 @@
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.15s ease;
 }
 
 .breakdown-tab-btn--active-expense {
-  background: var(--color-expense);
+  background: #f43f5e;
   color: #ffffff;
 }
 
@@ -235,14 +235,14 @@
 @media (min-width: 900px) {
   .breakdown-grid-dual {
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
+    gap: 28px;
   }
 }
 
 .breakdown-column {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 @media (max-width: 899px) {
@@ -251,131 +251,55 @@
   }
 }
 
-.breakdown-column__header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--color-surface-container-high);
-}
-
-.breakdown-column__header h4 {
-  font-size: 13px;
-  font-weight: 800;
-  color: var(--color-on-surface);
-  flex: 1;
-}
-
-.breakdown-column__dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.breakdown-column__total {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.breakdown-items-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.breakdown-row-item {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.breakdown-row-item__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.breakdown-row-item__left {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  min-width: 0;
-}
-
-.breakdown-cat-icon {
-  font-size: 16px;
-}
-
-.breakdown-cat-label {
+.breakdown-column__title {
   font-size: 13px;
   font-weight: 700;
   color: var(--color-on-surface);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-bottom: 4px;
 }
 
-.breakdown-row-item__right {
+/* Category Progress Bars */
+.cat-progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cat-progress-meta {
   display: flex;
   align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
-}
-
-.breakdown-cat-amount {
-  font-size: 13px;
-  font-weight: 800;
-}
-
-.breakdown-cat-pct {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--color-on-surface-variant);
-}
-
-.breakdown-progress-track {
-  height: 6px;
-  background: var(--color-surface-container-high);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  width: 100%;
-}
-
-.breakdown-progress-fill {
-  height: 100%;
-  border-radius: var(--radius-full);
-  transition: width 0.6s ease;
-  min-width: 4px;
-}
-
-.breakdown-empty {
+  justify-content: space-between;
   font-size: 12px;
-  color: var(--color-on-surface-variant);
-  text-align: center;
-  padding: 24px 0;
 }
 
-/* Mobile responsive */
-@media (max-width: 640px) {
-  .stats-card__header {
-    padding: 14px 16px;
-  }
+.cat-progress-name {
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
 
-  .stats-card__body {
-    padding: 16px;
-  }
+.cat-progress-amount {
+  font-weight: 700;
+  color: var(--color-on-surface-variant);
+}
 
-  .stats-hero-card {
-    padding: 14px 16px;
-  }
+.cat-progress-track {
+  height: 8px;
+  width: 100%;
+  background: var(--color-surface-container);
+  border-radius: 9999px;
+  overflow: hidden;
+}
 
-  .stats-hero-value {
-    font-size: 18px;
-  }
+.cat-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.5s ease;
+}
 
-  .stats-chart-wrapper {
-    height: 230px;
-  }
+.cat-progress-fill--income {
+  background: #10b981;
+}
+
+.cat-progress-fill--expense {
+  background: #f43f5e;
 }

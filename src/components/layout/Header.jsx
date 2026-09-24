@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useTheme } from '../../context/ThemeContext';
 import { useTransactions } from '../../context/TransactionContext';
 import { getGreeting } from '../../utils/formatDate';
 import TransactionModal from '../transactions/TransactionModal';
@@ -7,29 +6,38 @@ import './Header.css';
 
 const Header = ({ title, subtitle, showGreeting = false }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
   const { profile } = useTransactions();
 
-  const displayTitle = showGreeting
-    ? `${getGreeting()}, ${profile?.name || 'Pengguna'} 👋`
-    : title;
+  const greeting = getGreeting();
+  const userName = profile?.name ? profile.name : 'Pengguna';
 
   return (
     <>
       <div className="page-header">
         <div className="page-header__titles">
-          <h2 className="page-header__title">{displayTitle}</h2>
+          {showGreeting ? (
+            <div className="page-header__greeting-row">
+              <h1 className="page-header__title">
+                {greeting}, {userName}
+              </h1>
+              <span className="page-header__wave-emoji">👋</span>
+            </div>
+          ) : (
+            <h1 className="page-header__title">{title}</h1>
+          )}
           {subtitle && <p className="page-header__subtitle">{subtitle}</p>}
         </div>
 
         <div className="page-header__actions">
-          {/* Add Transaction Button */}
           <button
+            type="button"
             className="page-header__add-btn"
             onClick={() => setIsModalOpen(true)}
             id="btn-add-transaction"
           >
-            <span className="material-symbols-outlined">add</span>
+            <svg className="page-header__add-svg" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <path d="M12 4.5v15m7.5-7.5h-15" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
             <span>Tambah</span>
           </button>
         </div>

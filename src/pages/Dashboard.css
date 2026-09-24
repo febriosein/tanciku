@@ -1,150 +1,165 @@
-.dashboard {
+.dashboard-suite {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
   width: 100%;
 }
 
-/* ===== Summary Cards Grid ===== */
-.dashboard__summary {
+/* Summary Bento (3 Cards) */
+.dashboard-suite__summary {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 20px;
 }
 
-@media (min-width: 640px) {
-  .dashboard__summary {
+@media (min-width: 768px) {
+  .dashboard-suite__summary {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* ===== Wallets Section ===== */
-.dashboard__wallets-section {
+/* Wallets Breakdown Section */
+.dashboard-suite__wallets-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.dashboard__wallets-header {
+.dashboard-suite__wallets-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
-.section-title {
-  font-size: var(--font-size-md);
+.dashboard-suite__section-title {
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-on-surface);
+  line-height: 1.3;
 }
 
-.section-sub {
-  font-size: var(--font-size-xs);
+.dashboard-suite__section-sub {
+  font-size: 12px;
   color: var(--color-on-surface-variant);
-  display: block;
+  margin-top: 2px;
 }
 
-.wallet-add-btn {
+/* Emerald pill button "+ Tambah Dompet" from the template */
+.dashboard-suite__wallet-add-btn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
   padding: 6px 12px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-container-low);
-  border: 1px solid var(--color-surface-container-high);
-  color: var(--color-primary);
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #047857;
   font-family: var(--font-family);
-  font-size: var(--font-size-xs);
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(16, 185, 129, 0.2);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.15s ease;
 }
 
-.wallet-add-btn:hover {
-  background: var(--color-primary);
-  color: #ffffff;
-  border-color: var(--color-primary);
+.dashboard-suite__wallet-add-btn:hover {
+  background: #d1fae5;
+  color: #065f46;
+  transform: translateY(-1px);
 }
 
-.wallet-add-btn .material-symbols-outlined {
-  font-size: 16px;
+.dashboard-suite__btn-plus-svg {
+  width: 14px;
+  height: 14px;
 }
 
-.dashboard__wallets-grid {
+/* Wallets Micro-Cards Grid */
+.dashboard-suite__wallets-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  gap: 14px;
 }
 
 @media (min-width: 640px) {
-  .dashboard__wallets-grid {
+  .dashboard-suite__wallets-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .dashboard__wallets-grid {
+  .dashboard-suite__wallets-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (min-width: 1280px) {
-  .dashboard__wallets-grid {
+  .dashboard-suite__wallets-grid {
     grid-template-columns: repeat(6, 1fr);
   }
 }
 
-.wallet-mini-card {
+/* Single Wallet Micro-Card from the template */
+.dashboard-wallet-card {
+  background: var(--color-surface);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 12px 0 rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-md);
-  box-shadow: var(--card-shadow);
-  cursor: pointer;
-  text-align: left;
-  transition: all var(--transition-fast);
+  justify-content: space-between;
+  gap: 10px;
+  transition: all 0.2s ease;
   outline: none;
   position: relative;
 }
 
-.wallet-mini-card:hover {
-  border-color: var(--color-primary);
+.dashboard-wallet-card:hover {
+  border-color: rgba(16, 185, 129, 0.4);
   transform: translateY(-2px);
-  box-shadow: var(--card-shadow-hover);
+  box-shadow: 0 6px 20px -2px rgba(16, 185, 129, 0.12), 0 2px 8px -1px rgba(0, 0, 0, 0.04);
 }
 
-.wallet-mini-card--selected {
+.dashboard-wallet-card--selected {
   border-color: var(--color-primary);
-  background: var(--color-surface-container-low);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.3);
+  background: #f0fdf4;
 }
 
-.wallet-mini-card__top {
+[data-theme='dark'] .dashboard-wallet-card--selected {
+  background: #0d2a1f;
+}
+
+.dashboard-wallet-card__top {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.wallet-mini-card__icon {
+.dashboard-wallet-card__icon-box {
   width: 28px;
   height: 28px;
-  border-radius: var(--radius-sm);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
 
-.wallet-mini-card__icon .material-symbols-outlined {
-  font-size: 16px;
+.dashboard-wallet-card:hover .dashboard-wallet-card__icon-box {
+  transform: scale(1.08);
 }
 
-.wallet-mini-card__name {
-  font-size: var(--font-size-xs);
+.wallet-card-svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dashboard-wallet-card__name {
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-on-surface-variant);
   white-space: nowrap;
@@ -153,7 +168,7 @@
   flex: 1;
 }
 
-.wallet-mini-card__edit-btn {
+.dashboard-wallet-card__edit-btn {
   background: transparent;
   border: none;
   color: var(--color-on-surface-variant);
@@ -163,141 +178,149 @@
   align-items: center;
   justify-content: center;
   padding: 2px;
-  border-radius: var(--radius-xs);
-  transition: all var(--transition-fast);
+  border-radius: 4px;
+  transition: all 0.15s ease;
 }
 
-.wallet-mini-card:hover .wallet-mini-card__edit-btn {
+.dashboard-wallet-card:hover .dashboard-wallet-card__edit-btn {
   opacity: 1;
 }
 
-.wallet-mini-card__edit-btn:hover {
+.dashboard-wallet-card__edit-btn:hover {
   color: var(--color-primary);
-  background: var(--color-surface-container-high);
+  background: var(--color-surface-container);
 }
 
 @media (hover: none) {
-  .wallet-mini-card__edit-btn {
+  .dashboard-wallet-card__edit-btn {
     opacity: 1;
   }
 }
 
-.wallet-mini-card__balance {
-  font-size: var(--font-size-sm);
-  font-weight: 800;
+.dashboard-wallet-card__balance {
+  font-size: 14px;
+  font-weight: 700;
   color: var(--color-on-surface);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
-/* ===== Charts Grid ===== */
-.dashboard__charts {
+/* Charts Section */
+.dashboard-suite__charts {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 20px;
 }
 
 @media (min-width: 1024px) {
-  .dashboard__charts {
-    grid-template-columns: 1fr 340px;
+  .dashboard-suite__charts {
+    grid-template-columns: 2fr 1fr;
   }
 }
 
-/* ===== Generic Chart Card ===== */
-.chart-card {
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--card-shadow);
-  padding: 20px;
+.dashboard-chart-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 12px 0 rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  min-width: 0;
-}
-
-.chart-card__header {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: space-between;
-  gap: 8px;
-}
-
-.chart-card__title {
-  font-size: var(--font-size-lg);
-  font-weight: 700;
-  color: var(--color-on-surface);
-  line-height: 1.3;
-}
-
-/* Legend pills inside chart header */
-.chart-card__legend-pills {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-.legend-pill {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.legend-pill--income { color: var(--color-primary); }
-.legend-pill--expense { color: #F97316; }
-
-.legend-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.legend-dot--income  { background: var(--color-primary); }
-.legend-dot--expense { background: #F97316; }
-
-/* ===== Recent Transactions Card ===== */
-.dashboard__recent {
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--card-shadow);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
   width: 100%;
   box-sizing: border-box;
   overflow: hidden;
 }
 
-.dashboard__recent-header {
+.dashboard-chart-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 16px;
   gap: 12px;
 }
 
-.view-all-pill {
+.dashboard-chart-card__title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  letter-spacing: -0.01em;
+}
+
+.dashboard-chart-card__legend {
   display: flex;
   align-items: center;
-  gap: 4px;
-  background: rgba(53, 37, 205, 0.08);
-  color: var(--color-primary);
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: var(--radius-full);
-  text-decoration: none;
-  white-space: nowrap;
-  transition: background var(--transition-fast);
+  gap: 16px;
+  font-size: 12px;
 }
-.view-all-pill:hover {
-  background: rgba(53, 37, 205, 0.15);
+
+.dashboard-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  color: var(--color-on-surface-variant);
+}
+
+.dashboard-legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dashboard-legend-dot--income {
+  background: #10b981;
+}
+
+.dashboard-legend-dot--expense {
+  background: #f59e0b;
+}
+
+/* Recent Transactions Card */
+.dashboard-suite__recent-card {
+  background: var(--color-surface);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02), 0 4px 12px 0 rgba(15, 23, 42, 0.03);
+  border: 1px solid var(--color-border);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard-suite__recent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dashboard-suite__recent-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-on-surface);
+  letter-spacing: -0.01em;
+}
+
+.dashboard-suite__view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #059669;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.dashboard-suite__view-all-link:hover {
+  color: #047857;
+  background: #ecfdf5;
+}
+
+.dashboard-suite__arrow-svg {
+  width: 14px;
+  height: 14px;
 }

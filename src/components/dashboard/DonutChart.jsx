@@ -10,8 +10,8 @@ import './DonutChart.css';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const DONUT_COLORS = [
-  '#F97316', '#EC4899', '#3B82F6', '#10B981',
-  '#EAB308', '#8B5CF6', '#06B6D4', '#94A3B8',
+  '#10b981', '#06b6d4', '#3b82f6', '#8b5cf6',
+  '#ec4899', '#f59e0b', '#f43f5e', '#64748b',
 ];
 
 const DonutChart = () => {
@@ -30,8 +30,17 @@ const DonutChart = () => {
 
   if (sorted.length === 0) {
     return (
-      <div className="chart-empty">
-        <p>Belum ada data pengeluaran</p>
+      <div className="donut-chart-empty">
+        <div className="donut-chart-empty__ring">
+          <div className="donut-chart-empty__icon-inner">
+            <svg className="donut-chart-empty__svg" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <p className="donut-chart-empty__title">Belum ada data pengeluaran</p>
+        <p className="donut-chart-empty__desc">Semua transaksi pengeluaran periode ini akan tampil di sini</p>
       </div>
     );
   }
@@ -46,7 +55,7 @@ const DonutChart = () => {
       {
         data,
         backgroundColor: colors,
-        borderColor: isDark ? '#171622' : '#FFFFFF',
+        borderColor: isDark ? '#0a1d15' : '#FFFFFF',
         borderWidth: 3,
         hoverOffset: 6,
       },
@@ -60,8 +69,8 @@ const DonutChart = () => {
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: isDark ? '#171622' : '#1E293B',
-        borderColor: isDark ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.1)',
+        backgroundColor: isDark ? '#0a1d15' : '#0f172a',
+        borderColor: isDark ? 'rgba(52, 211, 153, 0.3)' : 'rgba(255,255,255,0.1)',
         borderWidth: 1,
         titleColor: '#fff',
         bodyColor: '#94A3B8',

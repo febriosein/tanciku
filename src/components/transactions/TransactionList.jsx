@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTransactions } from '../../context/TransactionContext';
 import { todayISO, daysAgoISO, parseISODate } from '../../utils/formatDate';
 import { formatCurrency } from '../../utils/formatCurrency';
 import TransactionItem from './TransactionItem';
+import TransactionModal from './TransactionModal';
 import EmptyState from '../ui/EmptyState';
 import './TransactionList.css';
 
@@ -14,6 +15,7 @@ const TransactionList = ({
   onDuplicate,
 }) => {
   const { filteredTransactions } = useTransactions();
+  const [modalOpen, setModalOpen] = useState(false);
 
   const sorted = [...filteredTransactions].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
@@ -23,10 +25,18 @@ const TransactionList = ({
 
   if (displayed.length === 0) {
     return (
-      <EmptyState
-        title="Tidak ada transaksi"
-        description="Coba ubah filter atau tambahkan transaksi baru."
-      />
+      <>
+        <EmptyState
+          title="Tidak ada transaksi"
+          description="Coba ubah filter atau tambahkan transaksi baru untuk mulai mencatat keuangan Anda."
+          actionLabel="Catat Transaksi Pertama"
+          onAction={() => setModalOpen(true)}
+        />
+        <TransactionModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
+      </>
     );
   }
 

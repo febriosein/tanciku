@@ -1,182 +1,158 @@
-.total-balance-card {
+.hero-balance-card {
   position: relative;
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-  border-radius: var(--radius-xl);
-  padding: 24px 28px;
-  color: #ffffff;
-  box-shadow: 0 10px 30px rgba(30, 27, 75, 0.25), 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: all var(--transition-base);
+  background: linear-gradient(135deg, #0d2a1f 0%, #092118 50%, #04120d 100%);
+  color: #ffffff;
+  padding: 28px 32px;
+  box-shadow: 0 20px 30px -10px rgba(4, 18, 13, 0.45);
+  border: 1px solid rgba(6, 95, 70, 0.35);
   width: 100%;
   box-sizing: border-box;
+  user-select: none;
 }
 
-[data-theme='dark'] .total-balance-card {
-  background: linear-gradient(135deg, #181628 0%, #292645 100%);
-  border-color: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
+@media (min-width: 1024px) {
+  .hero-balance-card {
+    padding: 34px 40px;
+    border-radius: 28px;
+  }
 }
 
-.total-balance-card__bg-glow {
+/* Ambient glow lights */
+.hero-balance-card__glow-right {
   position: absolute;
-  top: -40%;
-  right: -20%;
+  top: -60px;
+  right: -60px;
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.35) 0%, transparent 70%);
   border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.hero-balance-card__glow-left {
+  position: absolute;
+  bottom: -60px;
+  left: -60px;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.hero-balance-card__noise {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+  opacity: 0.4;
   pointer-events: none;
 }
 
-.total-balance-card__content {
+.hero-balance-card__body {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  justify-content: space-between;
+  min-height: 130px;
 }
 
-.total-balance-card__header {
+/* Card Header */
+.hero-balance-card__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
 }
 
-.total-balance-card__label-group {
-  display: flex;
+.hero-balance-card__pill {
+  display: inline-flex;
   align-items: center;
-  gap: 10px;
-}
-
-.total-balance-card__icon-box {
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-sm);
-  background: rgba(255, 255, 255, 0.15);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #dad7ff;
-}
-
-.total-balance-card__icon-box .material-symbols-outlined {
-  font-size: 18px;
-}
-
-.total-balance-card__label {
-  font-size: 13px;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #6ee7b7;
+  font-size: 11px;
   font-weight: 700;
-  color: #dad7ff;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.total-balance-card__eye-btn {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
+.hero-balance-card__pill-icon {
+  width: 15px;
+  height: 15px;
+  color: #6ee7b7;
+}
+
+.hero-balance-card__eye-btn {
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-full);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: #e2e8f0;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: all 0.2s ease;
 }
 
-.total-balance-card__eye-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
+.hero-balance-card__eye-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
   transform: scale(1.05);
 }
 
-.total-balance-card__eye-btn .material-symbols-outlined {
-  font-size: 20px;
+.hero-balance-card__eye-icon {
+  width: 16px;
+  height: 16px;
 }
 
-.total-balance-card__amount-row {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
+/* Amount Container */
+.hero-balance-card__amount-container {
+  margin: 16px 0 4px 0;
 }
 
-.total-balance-card__amount {
-  font-size: 36px;
+.hero-balance-card__amount {
+  font-size: 34px;
   font-weight: 800;
-  letter-spacing: -0.8px;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
   color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.total-balance-card__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: var(--radius-full);
-  background: rgba(34, 197, 94, 0.2);
-  border: 1px solid rgba(34, 197, 94, 0.35);
-  color: #4ade80;
-  font-size: 11px;
-  font-weight: 700;
+@media (min-width: 640px) {
+  .hero-balance-card__amount {
+    font-size: 42px;
+  }
 }
 
-.total-balance-card__footer {
+@media (min-width: 1024px) {
+  .hero-balance-card__amount {
+    font-size: 48px;
+  }
+}
+
+.hero-balance-card__subinfo {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(167, 243, 208, 0.85);
+  margin-top: 8px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  flex-wrap: wrap;
-}
-
-.total-balance-card__subinfo {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.8);
-}
-
-.total-balance-card__subinfo strong {
-  color: #ffffff;
-}
-
-.total-balance-card__add-btn {
-  display: inline-flex;
-  align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  border-radius: var(--radius-full);
-  background: rgba(255, 255, 255, 0.18);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #ffffff;
-  font-family: var(--font-family);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all var(--transition-fast);
 }
 
-.total-balance-card__add-btn:hover {
-  background: var(--color-primary);
+.hero-balance-card__subinfo strong {
   color: #ffffff;
-  border-color: var(--color-primary);
-}
-
-@media (max-width: 640px) {
-  .total-balance-card {
-    padding: 18px 20px;
-  }
-
-  .total-balance-card__amount {
-    font-size: 26px;
-  }
-
-  .total-balance-card__label {
-    font-size: 11px;
-  }
+  font-weight: 600;
 }

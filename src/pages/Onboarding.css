@@ -1,4 +1,4 @@
-/* ===== ONBOARDING SCREEN ===== */
+/* ===== ONBOARDING SCREEN (Forest Emerald Suite) ===== */
 .onboarding-screen {
   position: fixed;
   inset: 0;
@@ -25,7 +25,7 @@
   height: 400px;
   top: -120px;
   right: -80px;
-  background: radial-gradient(circle, var(--color-primary), transparent 70%);
+  background: radial-gradient(circle, #10b981, transparent 70%);
 }
 
 .onboarding-blob--2 {
@@ -33,17 +33,17 @@
   height: 300px;
   bottom: -80px;
   left: -60px;
-  background: radial-gradient(circle, var(--color-income), transparent 70%);
-  opacity: 0.2;
+  background: radial-gradient(circle, #059669, transparent 70%);
+  opacity: 0.25;
 }
 
 /* Card */
 .onboarding-card {
   position: relative;
-  background: var(--color-surface-container-lowest);
-  border: 1px solid var(--color-surface-container-high);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--shadow-xl);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
   padding: 40px 36px;
   width: 100%;
   max-width: 440px;
@@ -62,9 +62,9 @@
 .onboarding-logo {
   width: 72px;
   height: 72px;
-  border-radius: var(--radius-xl);
+  border-radius: 20px;
   object-fit: cover;
-  box-shadow: 0 8px 24px rgba(53, 37, 205, 0.2);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.25);
 }
 
 /* Heading */
@@ -74,7 +74,7 @@
 }
 
 .onboarding-title {
-  font-size: var(--font-size-2xl);
+  font-size: 24px;
   font-weight: 800;
   color: var(--color-on-surface);
   line-height: 1.25;
@@ -82,7 +82,7 @@
 }
 
 .onboarding-subtitle {
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   color: var(--color-on-surface-variant);
   line-height: 1.6;
 }
@@ -99,14 +99,14 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   color: var(--color-on-surface-variant);
   font-weight: 500;
 }
 
 .onboarding-feature-icon {
   font-size: 18px;
-  color: var(--color-primary);
+  color: #10b981;
   flex-shrink: 0;
 }
 
@@ -126,7 +126,7 @@
 }
 
 .onboarding-label {
-  font-size: var(--font-size-sm);
+  font-size: 13px;
   font-weight: 700;
   color: var(--color-on-surface);
 }
@@ -149,14 +149,14 @@
   width: 100%;
   padding: 13px 16px 13px 44px;
   border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-container-low);
+  border-radius: 12px;
+  background: var(--color-surface-container);
   color: var(--color-on-surface);
   font-family: var(--font-family);
-  font-size: var(--font-size-base);
+  font-size: 14px;
   font-weight: 500;
   outline: none;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
 }
 
 .onboarding-input::placeholder {
@@ -166,9 +166,9 @@
 }
 
 .onboarding-input:focus {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-border-focus);
-  background: var(--color-surface-container-lowest);
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  background: var(--color-surface);
 }
 
 /* Submit Button */
@@ -179,23 +179,23 @@
   gap: 8px;
   padding: 14px 24px;
   border: none;
-  border-radius: var(--radius-md);
-  background: var(--color-primary);
+  border-radius: 12px;
+  background: linear-gradient(to right, #059669, #10b981);
   color: #fff;
   font-family: var(--font-family);
-  font-size: var(--font-size-base);
+  font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
-  box-shadow: 0 4px 16px rgba(53, 37, 205, 0.25);
+  transition: all 0.15s ease;
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3);
   width: 100%;
   margin-top: 4px;
 }
 
 .onboarding-btn:hover:not(:disabled) {
-  background: var(--color-primary-container);
+  background: linear-gradient(to right, #10b981, #34d399);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(53, 37, 205, 0.35);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 
 .onboarding-btn:active:not(:disabled) {
@@ -208,12 +208,12 @@
 }
 
 .onboarding-btn--loading {
-  background: var(--color-primary-container);
+  background: #059669;
 }
 
 .onboarding-btn-icon {
   font-size: 18px;
-  transition: transform var(--transition-fast);
+  transition: transform 0.15s ease;
 }
 
 .onboarding-btn:hover:not(:disabled) .onboarding-btn-icon {
@@ -232,22 +232,22 @@
 
 /* Hint text */
 .onboarding-hint {
-  font-size: var(--font-size-xs);
+  font-size: 11px;
   color: var(--color-on-surface-variant);
   text-align: center;
   line-height: 1.5;
-  opacity: 0.7;
+  opacity: 0.8;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 480px) {
   .onboarding-card {
     padding: 28px 20px;
-    border-radius: var(--radius-xl);
+    border-radius: 20px;
   }
 
   .onboarding-title {
-    font-size: var(--font-size-xl);
+    font-size: 20px;
   }
 
   .onboarding-blob--1 {

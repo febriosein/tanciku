@@ -26,44 +26,54 @@ const TotalBalanceCard = () => {
   };
 
   return (
-    <div className="total-balance-card">
-      <div className="total-balance-card__bg-glow" aria-hidden="true" />
+    <section className="hero-balance-card" data-purpose="total-saldo-card">
+      {/* Ambient decorative glow lights */}
+      <div className="hero-balance-card__glow-right" />
+      <div className="hero-balance-card__glow-left" />
+      <div className="hero-balance-card__noise" />
 
-      <div className="total-balance-card__content">
-        <div className="total-balance-card__header">
-          <div className="total-balance-card__label-group">
-            <div className="total-balance-card__icon-box">
-              <span className="material-symbols-outlined">account_balance_wallet</span>
-            </div>
-            <span className="total-balance-card__label">Total Saldo</span>
+      <div className="hero-balance-card__body">
+        {/* Card Header Info */}
+        <div className="hero-balance-card__header">
+          <div className="hero-balance-card__pill">
+            <svg className="hero-balance-card__pill-icon" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <rect height="14" rx="2" width="20" x="2" y="5" />
+              <line x1="2" x2="22" y1="10" y2="10" />
+            </svg>
+            <span>TOTAL SALDO</span>
           </div>
 
           <button
             type="button"
-            className="total-balance-card__eye-btn"
+            className="hero-balance-card__eye-btn"
             onClick={toggleHideBalance}
             title={hideBalance ? 'Tampilkan Nominal Saldo' : 'Sembunyikan Nominal Saldo'}
             aria-label="Toggle Privacy"
           >
-            <span className="material-symbols-outlined">
-              {hideBalance ? 'visibility_off' : 'visibility'}
-            </span>
+            {hideBalance ? (
+              <svg className="hero-balance-card__eye-icon" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            ) : (
+              <svg className="hero-balance-card__eye-icon" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
           </button>
         </div>
 
-        <div className="total-balance-card__amount-row">
-          <div className="total-balance-card__amount">
+        {/* Total Balance Big Display */}
+        <div className="hero-balance-card__amount-container">
+          <div className="hero-balance-card__amount">
             {hideBalance ? 'Rp ••••••••••' : formatCurrency(totalBalance)}
           </div>
-        </div>
-
-        <div className="total-balance-card__footer">
-          <span className="total-balance-card__subinfo">
-            Tergabung dari <strong>{wallets.length} dompet & rekening</strong> aktif
-          </span>
+          <p className="hero-balance-card__subinfo">
+            Tergabung dari <strong>{wallets.length} dompet &amp; rekening</strong> aktif
+          </p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
