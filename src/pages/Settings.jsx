@@ -15,7 +15,7 @@ const Settings = () => {
   const { theme, setTheme } = useTheme();
   const toast = useToast();
 
-  const [userName, setUserName] = useState(profile?.name || 'Renno');
+  const [userName, setUserName] = useState(profile?.name || '');
   const [isEditingName, setIsEditingName] = useState(false);
   const [showResetConfirm, setShowResetConfirm] = useState(false);
 
@@ -103,7 +103,7 @@ const Settings = () => {
           }
           if (imported.profile) {
             dispatch({ type: 'SET_PROFILE', payload: imported.profile });
-            setUserName(imported.profile.name || 'Renno');
+            setUserName(imported.profile.name || '');
           }
           toast.success('Data transaksi, dompet, dan profil berhasil dipulihkan!');
         } else {
@@ -118,9 +118,17 @@ const Settings = () => {
   };
 
   const handleResetData = () => {
-    dispatch({ type: 'RESET_TRANSACTIONS' });
-    setShowResetConfirm(false);
-    toast.info('Data transaksi dan dompet direset ke data sampel bawaan!');
+    // Hapus semua data tanciku dari localStorage secara langsung (sinkron)
+    // supaya saat halaman di-reload, App.jsx mendeteksi pengguna "baru"
+    // dan menampilkan layar onboarding dari awal.
+    localStorage.removeItem('tanciku_transactions');
+    localStorage.removeItem('tanciku_wallets');
+    localStorage.removeItem('tanciku_filter');
+    // Set profil dengan nama kosong → memicu onboarding saat reload
+    localStorage.setItem('tanciku_profile', JSON.stringify({ name: '', currency: 'IDR' }));
+
+    // Reload halaman — App.jsx akan cek isFirstTime dan tampilkan onboarding
+    window.location.reload();
   };
 
   const userInitial = (userName || 'R').charAt(0).toUpperCase();
@@ -184,7 +192,7 @@ const Settings = () => {
                           type="button"
                           className="profile-btn-cancel"
                           onClick={() => {
-                            setUserName(profile?.name || 'Renno');
+                            setUserName(profile?.name || '');
                             setIsEditingName(false);
                           }}
                         >

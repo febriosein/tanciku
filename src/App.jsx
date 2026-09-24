@@ -11,11 +11,38 @@ import Dashboard from './pages/Dashboard';
 import Transactions from './pages/Transactions';
 import Statistics from './pages/Statistics';
 import Settings from './pages/Settings';
+import Onboarding from './pages/Onboarding';
 import './styles/global.css';
 import './styles/animations.css';
 
+// Cek apakah pengguna sudah pernah mengatur nama (tanpa context)
+const checkIsFirstTime = () => {
+  try {
+    const raw = localStorage.getItem('tanciku_profile');
+    if (!raw) return true;
+    const parsed = JSON.parse(raw);
+    return !parsed?.name || parsed.name.trim() === '';
+  } catch {
+    return true;
+  }
+};
+
 const App = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(checkIsFirstTime);
+
+  // Layar onboarding untuk pengguna baru
+  if (isFirstTime) {
+    return (
+      <ThemeProvider>
+        <ToastProvider>
+          <TransactionProvider>
+            <Onboarding onComplete={() => setIsFirstTime(false)} />
+          </TransactionProvider>
+        </ToastProvider>
+      </ThemeProvider>
+    );
+  }
 
   return (
     <ThemeProvider>

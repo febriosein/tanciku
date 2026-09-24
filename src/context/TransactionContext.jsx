@@ -23,7 +23,7 @@ const SAMPLE_TRANSACTIONS = [
 ];
 
 const DEFAULT_PROFILE = {
-  name: 'Renno',
+  name: '',
   currency: 'IDR',
 };
 
@@ -190,7 +190,7 @@ const initialState = {
 export const TransactionProvider = ({ children }) => {
   const [savedTransactions, setSavedTransactions] = useLocalStorage(
     'tanciku_transactions',
-    SAMPLE_TRANSACTIONS
+    []
   );
 
   const [savedWallets, setSavedWallets] = useLocalStorage(
