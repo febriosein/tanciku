@@ -4,6 +4,7 @@ import { useToast } from '../../context/ToastContext';
 import { getCategoryById } from '../../utils/categories';
 import { getWalletById } from '../../utils/wallets';
 import TransactionModal from './TransactionModal';
+import TransactionDetailModal from './TransactionDetailModal';
 import './TransactionItem.css';
 
 const TransactionItem = ({
@@ -17,6 +18,7 @@ const TransactionItem = ({
   const toast = useToast();
   const [isEditing, setIsEditing] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
 
   const category = getCategoryById(transaction.category);
   const wallet = getWalletById(transaction.wallet || 'cash', wallets);
@@ -43,6 +45,8 @@ const TransactionItem = ({
     if (isSelectionMode && onToggleSelect) {
       e.stopPropagation();
       onToggleSelect(transaction.id);
+    } else {
+      setShowDetail(true);
     }
   };
 
@@ -162,6 +166,15 @@ const TransactionItem = ({
         isOpen={isEditing}
         onClose={() => setIsEditing(false)}
         transaction={transaction}
+      />
+
+      <TransactionDetailModal
+        isOpen={showDetail}
+        onClose={() => setShowDetail(false)}
+        transaction={transaction}
+        onEdit={() => setIsEditing(true)}
+        onDuplicate={onDuplicate}
+        onDelete={handleDelete}
       />
     </>
   );
